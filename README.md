@@ -1,12 +1,12 @@
 # Software-engineering-project
 
-1. Group Info
+1. (Group Info)
 • Group 01
 --------------------------------------------------
-• Case study
+• (Case study)
   Maintenance Management System
 --------------------------------------------------  
-• Names + student IDs
+• (Names + student IDs)
 --------------------------------------------------
   20210853 Zina Maher Alhijazeen
   ------------------------------------------------
@@ -20,19 +20,19 @@
   Software engineering with Dr.Samer Elkababji 
 --------------------------------------------------
 --------------------------------------------------
-2. Overview
+2. (Overview)
 • System purpose
 • Tools used
 --------------------------------------------------
 --------------------------------------------------
-3. Diagrams
+3. (Diagrams)
 • List + description
 --------------------------------------------------
 --------------------------------------------------
-4. Repo Structure
+4. (Repo Structure)
 • Folder explanation
 --------------------------------------------------
 --------------------------------------------------
-5. Contributions
+5. (Contributions)
 • Member roles
 • Number of commits per team member.
