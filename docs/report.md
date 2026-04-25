@@ -26,9 +26,9 @@ v1.0.0: Initial report version
 
 # 1. Project Overview
 
-The **Maintenance Management System (MMS)** is a database-driven and sensor-integrated system designed to manage **preventive, corrective, and predictive maintenance** activities in industrial, commercial, or institutional environments. The system enables technicians to log maintenance requests, supervisors to review and assign work orders, and administrators to monitor maintenance performance through dashboards and KPI reports.
+The Maintenance Management System (MMS) is a database-based and sensor-enabled system that helps manage preventive, corrective and predictive maintenance tasks in industrial, commercial or institutional environments. The system enables technicians to log maintenance requests, supervisors to review and assign work orders, and administrators to monitor maintenance performance through dashboards and KPI reports.
 
-In addition, the system integrates with **IoT sensors** that continuously monitor equipment conditions such as temperature, vibration, and pressure. When abnormal readings are detected, the system can generate predictive alerts and automatically create maintenance requests. This helps organizations reduce downtime, improve maintenance planning, and increase operational efficiency.
+Moreover, the system can connect to IoT sensors that track equipment conditions like temperature, vibration, and pressure. The system can issue predictive maintenance alerts and automatically submit maintenance requests when anomalies are detected. This allows businesses to minimize downtime, plan maintenance activities and enhance efficiency.
 
 ## 1.1 System Purpose
 
@@ -61,7 +61,7 @@ The system covers the following functional areas:
 
 ## 2.1 Context Model
 
-The **C4 Level 1 Context Diagram** defines the Maintenance Management System boundary and illustrates its interactions with main users and external systems. All interacting entities are categorized according to their roles and responsibilities.
+The C4 Level 1 Context Diagram defines the Maintenance Management System boundary and illustrates its interactions with main users and external systems. All interacting entities are categorized according to their roles and responsibilities.
 
 ![C4 Level 1 Context Diagram](../out/UML/c4_L1_context/c4_L1_context.png)
 
@@ -76,7 +76,27 @@ The **C4 Level 1 Context Diagram** defines the Maintenance Management System bou
 
 The context model establishes the overall system boundary and shows how the MMS acts as the central platform coordinating maintenance operations between human users and external services.
 
-## 2.2 Activity Diagram
+## 2.2 Container Model
+
+The C4 Level 2 Container Diagram decomposes the Maintenance Management System into its main technical containers and shows how they communicate to support the maintenance workflow.
+
+![C4 Level 2 Container Diagram](../out/UML/c4_L2_container/c4_L2_container.png)
+
+The container model shows that the Maintenance Management System consists of the following main containers:
+
+- **Web Application:** A browser-based interface used by technicians, supervisors, and administrators.
+- **Mobile App:** A mobile interface mainly used by field technicians to receive and update work orders on-site.
+- **Backend API:** Handles the main business logic, including authentication, maintenance requests, work orders, equipment records, spare parts inventory, and KPI calculations.
+- **Central Database:** Stores work orders, equipment records, maintenance history, spare parts, alerts, users, and KPI data.
+- **IoT Gateway:** Receives raw sensor payloads from IoT sensors using MQTT and normalizes them.
+- **Alert Engine:** Evaluates sensor readings against thresholds, generates predictive alerts, and triggers automatic maintenance request creation.
+- **Notification Service:** Sends email and SMS notifications to technicians, supervisors, and administrators.
+
+The diagram shows that technicians, supervisors, and administrators interact with the system through the web application, while technicians may also use the mobile application in the field. Both applications communicate with the Backend API using REST/JSON. The Backend API reads and writes data to the central database and triggers the Notification Service when important workflow events occur.
+
+The IoT part of the system is separated into the IoT Gateway and Alert Engine. IoT sensors publish readings to the IoT Gateway using MQTT. The gateway forwards normalized events to the Alert Engine, which checks readings against threshold configurations and triggers the Backend API when a predictive maintenance request must be created.
+
+## 2.3 Activity Diagram
 
 The activity diagram illustrates the predictive maintenance workflow with swimlanes representing the main participants in the process.
 
