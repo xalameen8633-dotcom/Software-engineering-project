@@ -21,39 +21,39 @@ https://github.com/xalameen8633-dotcom/Software-engineering-project
 **Version Information:**  
 v1.0.0: Initial report version  
 
-
 ---
 
 # 1. Project Overview
 
-The Maintenance Management System (MMS) is a database-based and sensor-enabled system that helps manage preventive, corrective and predictive maintenance tasks in industrial, commercial or institutional environments. The system enables technicians to log maintenance requests, supervisors to review and assign work orders, and administrators to monitor maintenance performance through dashboards and KPI reports.
+The Maintenance Management System (MMS) is a database-driven, sensor-integrated platform built to handle preventive, corrective, and predictive maintenance in industrial, commercial, or institutional environments. It gives technicians a way to log maintenance requests, lets supervisors review and assign work orders, and provides administrators with dashboards and KPI reports to keep track of overall maintenance performance.
 
-Moreover, the system can connect to IoT sensors that track equipment conditions like temperature, vibration, and pressure. The system can issue predictive maintenance alerts and automatically submit maintenance requests when anomalies are detected. This allows businesses to minimize downtime, plan maintenance activities and enhance efficiency.
+One of the more interesting parts of the system is its IoT integration. Sensors attached to equipment continuously monitor conditions like temperature, vibration, and pressure. When a reading goes outside the normal range, the system automatically generates a predictive alert and creates a maintenance request without anyone having to manually report it. This helps catch problems early and reduces unexpected downtime.
 
 ## 1.1 System Purpose
 
-The MMS serves multiple stakeholders:
+The MMS is designed around five main roles:
 
-- **Technician:** Logs maintenance requests, views assigned work orders, updates work progress, and submits work order completion.
-- **Supervisor:** Reviews maintenance requests, approves or rejects requests, assigns technicians, monitors work order progress, and confirms closure.
-- **Administrator:** Monitors dashboards, KPIs, and maintenance reports.
-- **IoT Sensors:** Send abnormal sensor readings to the system for predictive maintenance detection.
-- **Notification Service:** Sends alerts and work order notifications to relevant users.
+- **Technician:** Logs corrective maintenance requests, views their assigned work orders, performs maintenance tasks in the field, and submits work order completion reports including labour hours and parts used.
+- **Supervisor:** Reviews incoming maintenance requests, approves or rejects them, assigns technicians to work orders, monitors progress, and confirms closure once the work is done.
+- **Administrator:** Monitors system-wide dashboards, KPI metrics, and maintenance reports.
+- **IoT Sensors:** Continuously send equipment readings to the system so that abnormal conditions can be detected automatically.
+- **Notification Service:** Handles delivery of email and SMS alerts to the right people at each stage of the workflow.
 
 ## 1.2 System Scope
 
-The system covers the following functional areas:
+The MMS covers the following functional areas:
 
-- Logging corrective maintenance requests
-- Monitoring sensor readings for predictive maintenance
-- Generating predictive alerts
-- Automatically creating maintenance requests
-- Approving and assigning work orders
-- Tracking work order progress
-- Recording labour and spare parts used
-- Confirming and closing completed work orders
-- Monitoring KPIs and dashboards
-- Sending maintenance notifications
+- Logging corrective maintenance requests manually by technicians
+- Monitoring IoT sensor readings for predictive maintenance detection
+- Generating predictive alerts when thresholds are exceeded
+- Automatically creating maintenance requests from sensor alerts
+- Reviewing, approving, and rejecting maintenance requests
+- Assigning and tracking work orders
+- Submitting work order completion with labour hours and parts used
+- Handling rework when completed work is unsatisfactory
+- Confirming and closing work orders
+- Monitoring KPIs and maintenance dashboards
+- Sending notifications at each workflow event
 
 ---
 
@@ -61,58 +61,59 @@ The system covers the following functional areas:
 
 ## 2.1 Context Model
 
-The C4 Level 1 Context Diagram defines the Maintenance Management System boundary and illustrates its interactions with main users and external systems. All interacting entities are categorized according to their roles and responsibilities.
+The C4 Level 1 Context Diagram shows the overall boundary of the Maintenance Management System and how it connects to the people and external systems that interact with it.
 
 ![C4 Level 1 Context Diagram](../out/UML/c4_L1_context/c4_L1_context.png)
 
 ### Internal Users
-- **Technician:** Logs maintenance requests, views assigned work orders, and submits completion updates.
-- **Supervisor:** Reviews requests, approves them, assigns work orders, tracks progress, and closes requests.
-- **Administrator:** Monitors maintenance KPIs and generates reports.
+- **Technician:** Logs maintenance requests, views assigned work orders, and submits completion reports.
+- **Supervisor:** Reviews requests, approves or rejects them, assigns work orders to technicians, tracks progress, and closes completed orders.
+- **Administrator:** Monitors maintenance KPIs and views reports through the system dashboards.
 
 ### External Systems
-- **IoT Sensors:** Provide abnormal readings related to equipment condition.
-- **Notification Service:** Sends alerts and assignment notifications to supervisors and technicians.
+- **IoT Sensors:** Send equipment condition readings (temperature, vibration, pressure) to the system for automated analysis.
+- **Notification Service:** Delivers email and SMS notifications to technicians, supervisors, and administrators at key points in the workflow.
 
-The context model establishes the overall system boundary and shows how the MMS acts as the central platform coordinating maintenance operations between human users and external services.
+The context diagram establishes the system boundary and shows how the MMS sits at the center of the maintenance workflow, connecting field technicians, supervisors, administrators, and automated IoT-driven processes.
 
 ## 2.2 Container Model
 
-The C4 Level 2 Container Diagram decomposes the Maintenance Management System into its main technical containers and shows how they communicate to support the maintenance workflow.
+The C4 Level 2 Container Diagram breaks down the internals of the MMS and shows how its technical components communicate with each other and with external systems.
 
 ![C4 Level 2 Container Diagram](../out/UML/c4_L2_container/c4_L2_container.png)
 
-The container model shows that the Maintenance Management System consists of the following main containers:
+The system is made up of the following containers:
 
-- **Web Application:** A browser-based interface used by technicians, supervisors, and administrators.
-- **Mobile App:** A mobile interface mainly used by field technicians to receive and update work orders on-site.
-- **Backend API:** Handles the main business logic, including authentication, maintenance requests, work orders, equipment records, spare parts inventory, and KPI calculations.
-- **Central Database:** Stores work orders, equipment records, maintenance history, spare parts, alerts, users, and KPI data.
-- **IoT Gateway:** Receives raw sensor payloads from IoT sensors using MQTT and normalizes them.
-- **Alert Engine:** Evaluates sensor readings against thresholds, generates predictive alerts, and triggers automatic maintenance request creation.
-- **Notification Service:** Sends email and SMS notifications to technicians, supervisors, and administrators.
+- **Web Application:** A browser-based interface used by technicians, supervisors, and administrators to interact with the system.
+- **Mobile App:** A mobile interface aimed primarily at field technicians who need to receive and update work orders while on-site.
+- **Backend API:** The core of the system. It handles authentication, maintenance requests, work orders, equipment records, spare parts inventory, and KPI calculations. All status updates and data writes go through this component.
+- **Central Database:** Stores everything — work orders, equipment records, maintenance history, spare parts, alerts, users, and KPI data.
+- **IoT Gateway:** Acts as the entry point for sensor data. It receives raw MQTT payloads from IoT devices and normalizes them before passing them on.
+- **Alert Engine:** Reads threshold configurations from the database and evaluates incoming sensor events. When a reading exceeds a threshold, it triggers the Backend API to create a predictive maintenance request.
+- **Notification Service:** An external service that receives triggers from the Backend API and delivers email or SMS messages to the relevant users.
 
-The diagram shows that technicians, supervisors, and administrators interact with the system through the web application, while technicians may also use the mobile application in the field. Both applications communicate with the Backend API using REST/JSON. The Backend API reads and writes data to the central database and triggers the Notification Service when important workflow events occur.
+Technicians, supervisors, and administrators interact with the system through the Web Application (or the Mobile App for field technicians). Both applications communicate with the Backend API over REST/JSON. The Backend API reads and writes to the Central Database and calls the Notification Service when workflow events occur.
 
-The IoT part of the system is separated into the IoT Gateway and Alert Engine. IoT sensors publish readings to the IoT Gateway using MQTT. The gateway forwards normalized events to the Alert Engine, which checks readings against threshold configurations and triggers the Backend API when a predictive maintenance request must be created.
+The IoT pipeline is separate from the main user-facing flow. Sensors publish readings via MQTT to the IoT Gateway, which normalizes the data and forwards it to the Alert Engine. The Alert Engine checks the reading against stored thresholds and, if needed, calls the Backend API to create a maintenance request automatically.
 
 ## 2.3 Activity Diagram
 
-The activity diagram illustrates the predictive maintenance workflow with swimlanes representing the main participants in the process.
+The activity diagram shows the end-to-end predictive maintenance workflow using swimlanes to separate the responsibilities of each participant.
 
 ![Activity Diagram](../out/UML/activity_diagram/activity_diagram.png)
 
 ### Key Activities
-1. IoT sensors send abnormal sensor readings.
-2. The system analyzes the readings and generates a predictive alert.
-3. A predictive maintenance request is automatically created.
-4. The supervisor is notified and reviews the request.
-5. If approved, a technician is assigned.
-6. The technician performs the maintenance work and submits completion.
-7. The supervisor reviews the result and either closes the work order or requests rework.
-8. The administrator monitors the updated KPIs and dashboards.
-
-This activity diagram describes the end-to-end predictive maintenance workflow in the Maintenance Management System. The process begins when IoT sensors detect an abnormal reading and forward it to the system. The system evaluates the reading, creates a predictive maintenance request, and notifies the supervisor. After the supervisor reviews and approves the request, a technician is assigned to perform the maintenance task. Once the task is completed, the technician submits the work results, and the supervisor either confirms closure or returns the work for reprocessing. The process ensures that predictive maintenance requests are handled systematically and that maintenance performance is reflected in the system dashboards.
+1. An IoT sensor detects an abnormal reading and publishes it via MQTT.
+2. The IoT Gateway normalizes the payload and forwards it to the Alert Engine.
+3. The Alert Engine compares the reading against the configured threshold.
+4. If the threshold is exceeded, a predictive alert is generated and the Backend API automatically creates a maintenance request.
+5. The supervisor is notified and reviews the request.
+6. If approved, the supervisor assigns a technician and the work order is issued.
+7. The technician receives the assignment, performs the maintenance, and submits a completion report.
+8. The Backend API records the maintenance history, updates the inventory and equipment status, and notifies the supervisor.
+9. The supervisor reviews the result and either closes the work order or sends it back for rework.
+10. If rework is needed, the technician is notified, performs additional work, and resubmits. The supervisor then reviews again and closes the order.
+11. Once closed, KPI metrics are updated and the administrator can view the updated dashboards.
 
 ---
 
@@ -120,41 +121,43 @@ This activity diagram describes the end-to-end predictive maintenance workflow i
 
 ## 3.1 Selected Primary Actors
 
-The primary actors selected from the context model are:
+The primary actors for this system, taken from the context model, are:
 
 - **Technician**
 - **Supervisor**
 - **Administrator**
 - **IoT Sensors**
 
-From the context diagram, these actors interact with the Maintenance Management System to perform the core maintenance operations. Based on these interactions, the following UML artefacts have been produced:
+These are the actors that directly initiate or participate in the system's main use cases. Based on their interactions with the MMS, we produced the following UML artefacts:
 
-- **Composite use case diagram** for the Maintenance Management System
-- **Sequence diagram – High-Level (Stakeholders)**
-- **Sequence diagram – Detailed (Developers)**
+- Composite use case diagram
+- High-level sequence diagram (stakeholders)
+- Detailed sequence diagram (developers)
 
-These diagrams are consistent with the context view, which shows that technicians, supervisors, administrators, and IoT sensors all interact with MMS in different ways to support maintenance workflows.
+All three artefacts are consistent with the context model and reflect the same set of actors and workflows.
 
 ## 3.2 Composite Use Case Diagram
 
-The composite use case diagram shows the main use cases supported by the Maintenance Management System.
+The use case diagram shows all the main use cases supported by the Maintenance Management System and how they relate to each actor.
 
 ![Use Case Diagram](../out/UML/usecase/use_case.png)
 
-The use case diagram shows that the system supports:
-- Logging maintenance requests
+The diagram covers the following use cases:
+
+- Logging corrective maintenance requests
 - Viewing assigned work orders
+- Submitting work order completion (including recording labour and parts used)
 - Reviewing maintenance requests
 - Approving or rejecting requests
-- Assigning technicians
+- Assigning work orders to technicians
 - Tracking work order progress
-- Submitting work order completion
-- Recording labour and parts used
-- Sending notifications
-- Monitoring dashboards and KPIs
-- Processing sensor readings
+- Confirming and closing work orders
+- Monitoring KPI dashboards
+- Viewing maintenance reports
+- Processing IoT sensor readings
 - Generating predictive alerts
-- Auto-creating maintenance requests
+- Auto-creating maintenance requests from alerts
+- Sending notifications
 
 ## 3.3 Use Case Descriptions
 
@@ -162,7 +165,7 @@ The tabular use case descriptions for the Maintenance Management System are prov
 
 `docs/use_case_descriptions.md`
 
-These descriptions define the use case name, actors, goal, preconditions, postconditions, main success scenario, and alternative flows for the main system functions.
+Each entry includes the use case name, actors involved, preconditions, postconditions, main success scenario, and alternative flows.
 
 ---
 
@@ -170,29 +173,31 @@ These descriptions define the use case name, actors, goal, preconditions, postco
 
 ## 4.1 High-Level Sequence Diagram
 
-This sequence diagram shows the stakeholder-level interaction for the predictive maintenance workflow.
+This diagram shows the predictive maintenance workflow from the perspective of the stakeholders, without going into internal system details.
 
 ![Sequence Diagram High Level](../out/UML/sequence-stakeholders/sequence_highlevel.png)
 
 ### Key Interactions
-1. IoT sensors send abnormal sensor readings to the system.
-2. The system analyzes the reading and creates a predictive maintenance request.
-3. The supervisor is notified of the new request.
-4. The supervisor reviews the request and approves it.
-5. The system assigns the work order to a technician.
-6. The technician performs the maintenance and submits completion.
-7. The supervisor reviews the result and closes the work order.
-8. The administrator views updated KPI dashboards.
+1. An IoT sensor sends an abnormal reading to the MMS.
+2. The system analyzes the reading, generates a predictive alert, and automatically creates a maintenance request.
+3. The supervisor is notified and reviews the request.
+4. The supervisor approves the request and assigns a technician.
+5. The technician acknowledges the work order, performs the maintenance, and submits the completion report.
+6. The supervisor is notified and reviews the completed work order.
+7. If the work is satisfactory, the supervisor closes the order and the administrator sees the updated KPI dashboard.
+8. If the work is unsatisfactory, the supervisor sends it back for rework. The technician receives the rework notification, performs the additional work, and resubmits. The supervisor then reviews and closes the order.
+9. If the request is rejected from the start, the supervisor rejects it and receives a confirmation.
 
-This high-level sequence diagram presents the predictive maintenance workflow from a business and stakeholder perspective. It emphasizes the interactions between IoT sensors, the Maintenance Management System, the supervisor, the technician, and the administrator. The diagram captures the major workflow events without focusing on internal implementation details.
+The high-level diagram focuses on the business flow and stakeholder interactions rather than how the system handles things internally. It gives a clear picture of who is responsible for each step.
 
 ## 4.2 Detailed Sequence Diagram
 
-The detailed sequence diagram provides the developer-level interaction of the Maintenance Management System. It shows the internal communication between the technical components involved in handling predictive maintenance requests.
+The detailed diagram shows the same workflow but at the developer level, including the internal communication between system components.
 
 ![Sequence Diagram Detailed](../out/UML/sequence-developers/sequence_detailed.png)
 
-The detailed sequence diagram includes interactions between:
+The participants in this diagram are:
+
 - **IoT Sensors**
 - **IoT Gateway / MQTT Broker**
 - **Alert Engine**
@@ -204,6 +209,8 @@ The detailed sequence diagram includes interactions between:
 - **Technician**
 - **Administrator**
 
-This developer-level diagram explains how sensor data flows through the system, how abnormal readings are evaluated, how predictive maintenance requests are created and stored, how notifications are generated, and how user actions update the work order lifecycle. Compared with the stakeholder-level diagram, this version provides more technical detail about the system internals, database operations, and notification flow.
+This diagram traces how sensor data flows from the IoT Gateway through the Alert Engine and into the Backend API, how maintenance requests and work orders are stored in the database, how notifications are triggered at each step, and how user actions through the Web Application drive the work order lifecycle. It also covers the rework path in full — from the supervisor reopening the work order, through the technician resubmitting, to the supervisor closing it after a second review.
+
+Compared to the stakeholder diagram, this version is more useful for developers as it shows the specific API calls, data passed between components, and the exact sequence of database operations performed by the Backend API.
 
 ---
