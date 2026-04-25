@@ -10,10 +10,10 @@
 
 | Student ID | Name | Commit Count |
 |---|---|---:|
-| 20210611   | Osama | [count] |
-| 20210748   | Mira | [count] |
-| 20210853   | Zina | [count] |
-| 20220637   | Zakarea | [count] |
+| 20210611   | Osama | 15 |
+| 20210748   | Mira | 15 |
+| 20210853   | Zina | 1 |
+| 20220637   | Zakarea | 1 |
 
 **GitHub Repository URL:**  
 https://github.com/xalameen8633-dotcom/Software-engineering-project

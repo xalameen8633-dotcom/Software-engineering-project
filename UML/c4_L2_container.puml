@@ -3,7 +3,7 @@
 
 title C4 Level 2 — Container Diagram: Maintenance Management System
 
-Person(technician, "Technician", "Logs maintenance requests\nand updates work order status")
+Person(technician, "Technician", "Logs maintenance requests\nand submits work order completion")
 Person(supervisor, "Supervisor", "Assigns and tracks\nwork orders")
 Person(admin, "Administrator", "Monitors KPIs\nand manages reports")
 

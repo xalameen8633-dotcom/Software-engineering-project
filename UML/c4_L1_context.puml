@@ -15,7 +15,7 @@ System_Ext(notif, "Notification Service", "Delivers email and SMS\nalerts to use
 Rel(technician, mms, "Submits maintenance requests\nand submits work order completion")
 Rel(supervisor, mms, "Reviews requests, assigns technicians,\nand tracks work orders")
 Rel(admin, mms, "Views dashboards, reports,\nand maintenance KPIs")
-Rel(iot, mms, "Sends sensor readings for automatic\nmaintenance alerts and predictive diagnostics")
+Rel(iot, mms, "Sends sensor readingPs for automatic\nmaintenance alerts and predictive diagnostics")
 Rel(mms, notif, "Sends notification triggers\nfor alerts and updates")
 Rel(notif, technician, "Delivers work order assignments\nand status updates")
 Rel(notif, supervisor, "Delivers request alerts\nand completion notices")
