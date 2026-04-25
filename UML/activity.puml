@@ -1,0 +1,132 @@
+@startuml activity_diagram
+title Activity Diagram — Predictive Maintenance Workflow
+
+skinparam ranksep 90
+skinparam nodesep 80
+
+|IoT Sensors|
+start
+:Detect abnormal reading;
+:Publish sensor payload via MQTT;
+
+|IoT Gateway|
+:Receive sensor payload;
+:Forward normalized sensor event;
+
+|Alert Engine|
+:Evaluate reading against threshold;
+
+if (Threshold exceeded?) then (yes)
+    :Generate predictive alert;
+    :Trigger work order creation\nvia Backend API;
+
+    |Backend API|
+    :Store maintenance request and alert;
+    :Trigger notification to supervisor;
+
+    |Notification Service|
+    :Send new request notification;
+
+    |Supervisor|
+    :Receive notification of new request;
+    :Review maintenance request details;
+
+    if (Approve request?) then (yes)
+        :Assign technician to work order;
+
+        |Backend API|
+        :Issue work order;
+        :Update work order status to Assigned;
+
+        |Notification Service|
+        :Send work order assignment notification;
+
+        |Technician|
+        :Receive work order notification;
+        :Review job details and required spare parts;
+        :Travel to equipment location;
+        :Perform maintenance work;
+        :Record labour hours and parts used;
+        :Submit work order completion;
+
+        |Backend API|
+        :Record maintenance history entry;
+        :Deduct spare parts from inventory;
+        :Update equipment status;
+        :Update work order status to Completed;
+
+        |Notification Service|
+        :Send completion notification;
+
+        |Supervisor|
+        :Receive completion notification;
+        :Review completed work order;
+
+        if (Work satisfactory?) then (yes)
+            :Confirm and close work order;
+
+            |Backend API|
+            :Mark work order as Closed;
+            :Calculate and update KPI metrics;
+
+            |Administrator|
+            :View updated dashboards and KPI reports;
+            stop
+
+        else (no)
+            |Supervisor|
+            :Reopen work order\nwith additional notes;
+
+            |Backend API|
+            :Update work order status to Rework Required;
+
+            |Notification Service|
+            :Send rework notification to technician;
+
+            |Technician|
+            :Receive rework notification;
+            :Perform additional maintenance work;
+            :Submit rework completion;
+
+            |Backend API|
+            :Record additional maintenance details;
+            :Update work order status to Completed;
+
+            |Notification Service|
+            :Send rework completion notification;
+
+            |Supervisor|
+            :Receive rework completion notification;
+            :Review reworked order;
+            :Confirm and close work order;
+
+            |Backend API|
+            :Mark work order as Closed;
+            :Calculate and update KPI metrics;
+
+            |Administrator|
+            :View updated dashboards and KPI reports;
+            stop
+        endif
+
+    else (no)
+        |Backend API|
+        :Mark request as Rejected;
+        :Update request status;
+
+        |Notification Service|
+        :Send request rejection notification;
+
+        |Supervisor|
+        :Receive rejection confirmation;
+        stop
+    endif
+
+else (no)
+    |Backend API|
+    :Log sensor reading;
+    :No maintenance action required;
+    stop
+endif
+
+@enduml

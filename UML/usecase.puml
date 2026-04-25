@@ -1,0 +1,78 @@
+@startuml use_case
+left to right direction
+
+title Use Case Diagram — Maintenance Management System
+
+actor Technician as tech
+actor Supervisor as sup
+actor Administrator as admin
+actor "IoT Sensors\n<<external system>>" as iot
+actor "Notification Service\n<<external system>>" as notif
+
+rectangle "Maintenance Management System" {
+
+    ' ── Technician use cases ──────────────────────────────────
+    usecase "Log Maintenance Request" as UC1
+    usecase "View Assigned Work Orders" as UC2
+    usecase "Submit Work Order Completion" as UC3
+    usecase "Record Labour and Parts Used" as UC4
+
+    ' ── Supervisor use cases ──────────────────────────────────
+    usecase "Review Maintenance Requests" as UC5
+    usecase "Approve or Reject Request" as UC6
+    usecase "Assign Work Order to Technician" as UC7
+    usecase "Track Work Order Progress" as UC8
+    usecase "Confirm and Close Work Order" as UC9
+
+    ' ── Administrator use cases ───────────────────────────────
+    usecase "Monitor KPIs and Dashboards" as UC10
+    usecase "View Maintenance Reports" as UC11
+
+    ' ── IoT / System use cases ────────────────────────────────
+    usecase "Process Sensor Readings" as UC12
+    usecase "Generate Predictive Alert" as UC13
+    usecase "Auto-Create Maintenance Request" as UC14
+
+    ' ── Shared system use case ────────────────────────────────
+    usecase "Send Notifications" as UC15
+}
+
+' ── Actor associations ────────────────────────────────────────
+tech  --> UC1
+tech  --> UC2
+tech  --> UC3
+tech  --> UC4
+
+sup   --> UC5
+sup   --> UC6
+sup   --> UC8
+sup   --> UC9
+
+admin --> UC10
+admin --> UC11
+
+iot   --> UC12
+
+' ── Include relationships ─────────────────────────────────────
+' IoT automated chain
+UC12 ..> UC13 : <<include>>
+UC13 ..> UC14 : <<include>>
+UC14 ..> UC15 : <<include>>
+
+' Supervisor approval triggers assignment
+UC6  ..> UC7  : <<include>>
+
+' Actions that trigger notifications
+UC1  ..> UC15 : <<include>>
+UC6  ..> UC15 : <<include>>
+UC7  ..> UC15 : <<include>>
+UC3  ..> UC15 : <<include>>
+UC9  ..> UC15 : <<include>>
+
+' Submitting completion includes recording labour and parts
+UC3  ..> UC4  : <<include>>
+
+' Notification Service receives all notifications
+UC15 --> notif
+
+@enduml

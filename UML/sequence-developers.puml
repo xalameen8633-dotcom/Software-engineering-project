@@ -1,0 +1,264 @@
+@startuml sequence_detailed
+title Sequence Diagram — Detailed (Developers): Predictive Maintenance Workflow
+
+participant "IoT Sensors" as iot
+participant "IoT Gateway\n(MQTT Broker)" as gateway
+participant "Alert Engine\n(Python)" as alert
+actor Supervisor as sup
+actor Technician as tech
+actor Administrator as admin
+participant "Web Application\n(React SPA)" as web
+participant "Backend API\n(Node.js / Express)" as backend
+database "Central Database\n(PostgreSQL)" as db
+participant "Notification Service" as notif
+
+' ── 1. Sensor ingestion ───────────────────────────────────────────────────────
+activate iot
+iot -> gateway++ : Publish sensor payload\n(MQTT)
+deactivate iot
+
+gateway -> alert++ : Forward normalized sensor event
+deactivate gateway
+
+alert -> alert : Evaluate reading against threshold
+
+alt Threshold exceeded
+
+    ' ── 2. Alert Engine triggers Backend API ──────────────────────────────────
+    alert -> backend++ : POST /internal/maintenance-requests\n{equipmentId, metric, value, severity}
+    deactivate alert
+
+    backend -> db++ : Store alert record
+    db --> backend : Save confirmation
+    deactivate db
+
+    backend -> db++ : Store maintenance request\n{type: "predictive", status: "Pending"}
+    db --> backend : Return requestId
+    deactivate db
+
+    backend -> db++ : Fetch responsible supervisor contact
+    db --> backend : Return supervisorContact
+    deactivate db
+
+    backend -> notif++ : POST /notify\n{to: supervisorContact,\ntype: "new_request", requestId}
+    notif --> sup : New predictive request alert\n(Email / SMS)
+    deactivate notif
+
+    ' ── 3. Supervisor reviews and approves ────────────────────────────────────
+    activate sup
+    sup -> web++ : Open maintenance request
+    web -> backend : GET /api/maintenance-requests/:requestId\n(REST / JSON)
+    backend -> db++ : Fetch request details and linked alert
+    db --> backend : Return request and alert data
+    deactivate db
+    backend --> web : Return request data (JSON)
+    web --> sup : Display request details
+    deactivate web
+
+    sup -> web++ : Approve request and assign technician
+    web -> backend : PATCH /api/maintenance-requests/:requestId\n{status: "Approved", assignedTechnicianId}\n(REST / JSON)
+
+    backend -> db++ : Update request status to Approved
+    db --> backend : Update confirmation
+    deactivate db
+
+    backend -> db++ : Create work order record\n{status: "Assigned", assignedTechnicianId}
+    db --> backend : Return workOrderId
+    deactivate db
+
+    backend -> db++ : Fetch assigned technician contact
+    db --> backend : Return technicianContact
+    deactivate db
+
+    backend -> notif++ : POST /notify\n{to: technicianContact,\ntype: "work_order_assigned", workOrderId}
+    notif --> tech : Work order assignment\n(Email / SMS)
+    deactivate notif
+
+    backend --> web : Return workOrderId and status (JSON)
+    web --> sup : Display assignment confirmation
+    deactivate web
+    deactivate sup
+
+    ' ── 4. Technician views and performs work ─────────────────────────────────
+    activate tech
+    tech -> web++ : Open assigned work order
+    web -> backend : GET /api/work-orders/:workOrderId\n(REST / JSON)
+    backend -> db++ : Fetch work order, equipment,\nand spare parts details
+    db --> backend : Return job details
+    deactivate db
+    backend --> web : Return work order details (JSON)
+    web --> tech : Display job details
+    deactivate web
+
+    tech -> web++ : Submit completion\n{labourHours, partsUsed, notes}
+    web -> backend : PATCH /api/work-orders/:workOrderId\n{status: "Completed", labourHours,\npartsUsed: [{partId, qty}], notes}\n(REST / JSON)
+
+    backend -> db++ : Record maintenance history entry\n{labourHours, partsUsed, completedAt}
+    db --> backend : Save confirmation
+    deactivate db
+
+    backend -> db++ : Deduct used parts from spare parts inventory
+    db --> backend : Update confirmation
+    deactivate db
+
+    backend -> db++ : Update equipment status to Operational
+    db --> backend : Update confirmation
+    deactivate db
+
+    backend -> db++ : Update work order status to Completed
+    db --> backend : Update confirmation
+    deactivate db
+
+    backend --> web : Completion update saved (JSON)
+    web --> tech : Display update confirmation
+    deactivate web
+    deactivate tech
+
+    backend -> notif++ : POST /notify\n{to: supervisorContact,\ntype: "work_order_completed", workOrderId}
+    notif --> sup : Completion notification\n(Email / SMS)
+    deactivate notif
+
+    ' ── 5. Supervisor reviews completed work order ────────────────────────────
+    activate sup
+    sup -> web++ : Review completed work order
+    web -> backend : GET /api/work-orders/:workOrderId\n(REST / JSON)
+    backend -> db++ : Fetch completed work order\nand maintenance history
+    db --> backend : Return completed work order details
+    deactivate db
+    backend --> web : Return completed work order data (JSON)
+    web --> sup : Display completed work order
+    deactivate web
+
+    alt Work satisfactory
+
+        ' ── 6a. Supervisor closes work order ──────────────────────────────────
+        sup -> web++ : Confirm and close work order
+        web -> backend : PATCH /api/work-orders/:workOrderId\n{status: "Closed"}\n(REST / JSON)
+
+        backend -> db++ : Update work order status to Closed
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend -> db++ : Recalculate and update KPI metrics\n{downtime, responseTime, repairCost}
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend --> web : Close confirmation (JSON)
+        web --> sup : Display work order closed confirmation
+        deactivate web
+        deactivate sup
+
+        ' ── 7a. Admin views KPI dashboard ─────────────────────────────────────
+        activate admin
+        admin -> web++ : View dashboards and KPI reports
+        web -> backend : GET /api/kpi-metrics\n(REST / JSON)
+        backend -> db++ : Fetch aggregated KPI metrics\nand maintenance history
+        db --> backend : Return KPI and report data
+        deactivate db
+        backend --> web : Return dashboard data (JSON)
+        web --> admin : Display updated dashboards and reports
+        deactivate web
+        deactivate admin
+
+    else Work unsatisfactory
+
+        ' ── 6b. Supervisor reopens for rework ─────────────────────────────────
+        sup -> web++ : Reopen work order with additional notes
+        web -> backend : PATCH /api/work-orders/:workOrderId\n{status: "Rework Required", reworkNotes}\n(REST / JSON)
+
+        backend -> db++ : Update work order status to Rework Required\nand store supervisor notes
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend --> web : Rework status saved (JSON)
+        web --> sup : Display rework confirmation
+        deactivate web
+        deactivate sup
+
+        backend -> notif++ : POST /notify\n{to: technicianContact,\ntype: "rework_required", workOrderId, reworkNotes}
+        notif --> tech : Rework notification\n(Email / SMS)
+        deactivate notif
+
+        ' ── 7b. Technician performs rework ───────────────────────────────────
+        activate tech
+        tech -> web++ : Submit rework completion\n{additionalNotes, labourHours, partsUsed}
+        web -> backend : PATCH /api/work-orders/:workOrderId\n{status: "Completed", additionalNotes,\nlabourHours, partsUsed: [{partId, qty}]}\n(REST / JSON)
+
+        backend -> db++ : Record additional maintenance history entry\n{type: "rework", additionalNotes, completedAt}
+        db --> backend : Save confirmation
+        deactivate db
+
+        backend -> db++ : Deduct used parts from spare parts inventory
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend -> db++ : Update work order status to Completed
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend --> web : Rework completion saved (JSON)
+        web --> tech : Display rework update confirmation
+        deactivate web
+        deactivate tech
+
+        backend -> notif++ : POST /notify\n{to: supervisorContact,\ntype: "rework_completed", workOrderId}
+        notif --> sup : Rework completion notification\n(Email / SMS)
+        deactivate notif
+
+        ' ── 8b. Supervisor reviews rework and closes ──────────────────────────
+        activate sup
+        sup -> web++ : Review reworked work order
+        web -> backend : GET /api/work-orders/:workOrderId\n(REST / JSON)
+        backend -> db++ : Fetch reworked work order\nand maintenance history
+        db --> backend : Return reworked work order details
+        deactivate db
+        backend --> web : Return reworked work order data (JSON)
+        web --> sup : Display reworked work order
+        deactivate web
+
+        sup -> web++ : Confirm and close work order
+        web -> backend : PATCH /api/work-orders/:workOrderId\n{status: "Closed"}\n(REST / JSON)
+
+        backend -> db++ : Update work order status to Closed
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend -> db++ : Recalculate and update KPI metrics\n{downtime, responseTime, repairCost}
+        db --> backend : Update confirmation
+        deactivate db
+
+        backend --> web : Close confirmation (JSON)
+        web --> sup : Display work order closed confirmation
+        deactivate web
+        deactivate sup
+
+        ' ── 9b. Admin views KPI dashboard after rework ───────────────────────
+        activate admin
+        admin -> web++ : View dashboards and KPI reports
+        web -> backend : GET /api/kpi-metrics\n(REST / JSON)
+        backend -> db++ : Fetch aggregated KPI metrics\nand maintenance history
+        db --> backend : Return KPI and report data
+        deactivate db
+        backend --> web : Return dashboard data (JSON)
+        web --> admin : Display updated dashboards and reports
+        deactivate web
+        deactivate admin
+
+    end
+
+else Threshold not exceeded
+
+    ' ── Normal reading: log only ──────────────────────────────────────────────
+    activate alert
+    alert -> backend++ : POST /internal/sensor-logs\n{deviceId, metric, value, timestamp}
+    deactivate alert
+
+    backend -> db++ : Store sensor reading as normal log entry
+    db --> backend : Save confirmation
+    deactivate db
+
+end
+
+deactivate backend
+
+@enduml
