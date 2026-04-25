@@ -1,9 +1,6 @@
 @startuml c4_L1_context
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-
-
-
 title C4 Level 1 — System Context: Maintenance Management System
 
 Person(technician, "Technician", "Logs maintenance requests\nand updates work order status")
@@ -15,7 +12,7 @@ System(mms, "Maintenance Management System", "Manages preventive, corrective, an
 System_Ext(iot, "IoT Sensors", "Detects abnormal temperature,\nvibration, or pressure readings")
 System_Ext(notif, "Notification Service", "Delivers email and SMS\nalerts to users")
 
-Rel(technician, mms, "Submits maintenance requests\nand updates work order status")
+Rel(technician, mms, "Submits maintenance requests\nand submits work order completion")
 Rel(supervisor, mms, "Reviews requests, assigns technicians,\nand tracks work orders")
 Rel(admin, mms, "Views dashboards, reports,\nand maintenance KPIs")
 Rel(iot, mms, "Sends sensor readings for automatic\nmaintenance alerts and predictive diagnostics")
