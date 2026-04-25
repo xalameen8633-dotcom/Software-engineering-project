@@ -3,24 +3,24 @@
 
 **Group Number:** 01  
 **Course:** Software Engineering  
-**Semester:** Fall 2025  
+**Semester:** Spring 2026  
 **Instructor:** Dr. Samer Elkababji  
 
 ## Group Members
 
 | Student ID | Name | Commit Count |
 |---|---|---:|
-| [ID] | Osama | [count] |
-| [ID] | Mira | [count] |
-| [ID] | Zina | [count] |
-| [ID] | Zakarea | [count] |
+| 20210611   | Osama | [count] |
+| 20210748   | Mira | [count] |
+| 20210853   | Zina | [count] |
+| 20220637   | Zakarea | [count] |
 
 **GitHub Repository URL:**  
 https://github.com/xalameen8633-dotcom/Software-engineering-project
 
 **Version Information:**  
 v1.0.0: Initial report version  
-v2.0.0: Updated version with diagrams and descriptions  
+
 
 ---
 
