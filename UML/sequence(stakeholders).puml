@@ -1,0 +1,107 @@
+@startuml sequence_highlevel
+title Sequence Diagram — High-Level (Stakeholders): Predictive Maintenance Workflow
+
+actor "IoT Sensors" as iot
+actor Supervisor as sup
+actor Technician as tech
+actor Administrator as admin
+participant "Maintenance Management\nSystem" as mms
+participant "Notification Service" as notif
+
+activate iot
+iot -> mms++ : Send abnormal sensor reading
+deactivate iot
+
+mms -> mms : Analyze reading and generate\npredictive alert
+mms -> mms : Auto-create maintenance request
+
+
+mms -> notif++ : Trigger notification to supervisor
+notif --> sup : Email / SMS notification
+deactivate notif
+
+activate sup
+sup -> mms : Review predictive maintenance request
+mms --> sup : Return request details
+deactivate sup
+
+alt Request approved
+   
+    sup -> mms : Approve and assign technician
+   
+
+    mms -> notif++ : Notify technician of work order
+    notif --> tech : Work order details via email / SMS
+    deactivate notif
+
+    activate tech
+    tech -> mms : Acknowledge work order
+    tech -> mms : Perform maintenance work,\nlog labour and parts used
+    tech -> mms : Submit work order completion
+    mms --> tech : Work order updated confirmation
+    deactivate tech
+
+    mms -> notif++ : Notify supervisor of completion
+    notif --> sup : Completion notification
+    deactivate notif
+
+    activate sup
+    sup -> mms : Review completed work order
+    deactivate sup
+
+    alt Work satisfactory
+      
+        sup -> mms : Confirm and close work order
+
+
+        mms -> mms : Update maintenance history,\ninventory, and KPI metrics
+        mms --> sup : Work order closed confirmation
+
+        mms --> admin : KPI dashboard updated
+        activate admin
+        admin -> mms : View KPI dashboard
+        mms --> admin : Return KPI report data
+        deactivate admin
+
+    else Work unsatisfactory
+        activate sup
+        sup -> mms : Reopen work order\nwith additional notes
+        deactivate sup
+
+        mms -> notif++ : Notify technician to redo work
+        notif --> tech : Rework notification
+        deactivate notif
+
+        activate tech
+        tech -> mms : Perform additional work
+        tech -> mms : Submit rework completion
+        mms --> tech : Rework update confirmation
+        deactivate tech
+
+        mms -> notif++ : Notify supervisor of rework completion
+        notif --> sup : Rework completion notification
+        deactivate notif
+
+        activate sup
+        sup -> mms : Review and close reworked work order
+        mms --> sup : Work order closed confirmation
+        deactivate sup
+
+        mms -> mms : Calculate and update KPI metrics
+        mms --> admin : KPI dashboard updated
+        activate admin
+        admin -> mms : View KPI dashboard
+        mms --> admin : Return KPI report data
+        deactivate admin
+    end
+
+else Request rejected
+    activate sup
+    sup -> mms : Reject predictive request
+    mms --> sup : Request rejected confirmation
+    deactivate sup
+end
+
+deactivate mms
+
+@enduml

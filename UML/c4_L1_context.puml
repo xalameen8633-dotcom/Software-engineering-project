@@ -1,0 +1,33 @@
+@startuml c4_L1_context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+
+
+
+title C4 Level 1 — System Context: Maintenance Management System
+
+Person(technician, "Technician", "Logs maintenance requests\nand updates work order status")
+Person(supervisor, "Supervisor", "Assigns and tracks\nwork orders")
+Person(admin, "Administrator", "Monitors KPIs\nand manages reports")
+
+System(mms, "Maintenance Management System", "Manages preventive, corrective, and predictive maintenance activities, including equipment records, spare parts inventory, work orders, alerts, and KPI reports")
+
+System_Ext(iot, "IoT Sensors", "Detects abnormal temperature,\nvibration, or pressure readings")
+System_Ext(notif, "Notification Service", "Delivers email and SMS\nalerts to users")
+
+Rel(technician, mms, "Submits maintenance requests\nand updates work order status")
+Rel(supervisor, mms, "Reviews requests, assigns technicians,\nand tracks work orders")
+Rel(admin, mms, "Views dashboards, reports,\nand maintenance KPIs")
+Rel(iot, mms, "Sends sensor readings for automatic\nmaintenance alerts and predictive diagnostics")
+Rel(mms, notif, "Sends notification triggers\nfor alerts and updates")
+Rel(notif, technician, "Delivers work order assignments\nand status updates")
+Rel(notif, supervisor, "Delivers request alerts\nand completion notices")
+Rel(notif, admin, "Delivers system alerts\nand KPI summaries")
+
+Lay_L(technician, mms)
+Lay_U(supervisor, mms)
+Lay_R(admin, mms)
+Lay_D(iot, mms)
+
+
+@enduml
