@@ -134,6 +134,7 @@ This diagram helps in understanding the sequence of operations and the responsib
 
 This process ensures that each maintenance request is properly reviewed before being carried out. It also improves accountability, as each step is handled by a specific role such as a technician, supervisor, or the system.
 Additionally, the use of IoT devices allows the system to automatically detect potential issues without requiring manual input, enabling faster response and more efficient maintenance.
+Overall, the activity diagram ensures that the maintenance process is structured and consistent. It also highlights how the system supports both manual and automated workflows, improving efficiency and reducing delays in maintenance operations.
 
 ---
 
