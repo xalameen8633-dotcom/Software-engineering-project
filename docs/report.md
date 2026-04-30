@@ -142,7 +142,8 @@ Overall, the activity diagram ensures that the maintenance process is structured
 
 ## 3.1 Use Case Diagram
 
-The use case diagram represents the functional interactions between system actors and MMS.
+The use case diagram illustrates how different actors interact with the Maintenance Management System (MMS) to perform key operations. It provides a clear overview of the system’s functionality from the user’s perspective.
+This diagram helps in identifying the main system features and shows how each actor,such as technicians, supervisors, and administrators, is involved in different tasks within the system.
 
 ![Use Case Diagram](../uml/Interactions/usecase_diagram.png)
 
