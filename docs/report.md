@@ -11,8 +11,8 @@
 | Student ID | Name | Commit Count |
 |---|---|---:|
 | 20210611 | Osama | 15 |
-| 20210748 | Mira | 21 |
-| 20210853 | Zina | 1 |
+| 20210748 | Mira | 29 |
+| 20210853 | Zina | 14 |
 | 20220637 | Zakarea | 1 |
 
 **GitHub Repository URL:**  
