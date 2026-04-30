@@ -68,7 +68,7 @@ All entities interacting with MMS are categorized based on their roles:
 - **IoT Sensors**: Continuously monitor equipment conditions and send abnormal readings to the system for predictive maintenance.
 - **Notification Service**: Sends system-generated alerts and notifications, including maintenance requests, work order updates, and sensor alerts.
 
-The context model establishes the system boundary and highlights how MMS acts as a central system coordinating maintenance operations and communication between all entities.
+The context diagram clearly shows the role of MMS as a central system that coordinates communication between users and external services. It helps in understanding how information flows into and out of the system,ensuring that all interactions are properly managed.
 
 ---
 
