@@ -189,7 +189,7 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Extensions** | Request is rejected → system updates request status and sends rejection notification to technician. |
 | **Includes** | Send Notifications |
 
-This use case is important because it ensures that maintenance tasks are properly initiated and managed, forming the foundation of the overall maintenance workflow.
+This use case is important because it ensures that maintenance tasks are properly assigned and monitored, enabling supervisors to manage resources efficiently and track progress.
 
 
 ---
