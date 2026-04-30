@@ -116,7 +116,8 @@ This separation improves system organization, scalability, and maintainability.
 
 ## 2.3 Activity Diagram
 
-The activity diagram illustrates the complete maintenance workflow, covering both manual and sensor-driven processes.
+The activity diagram illustrates the overall workflow of the maintenance process,including both manual and sensor-driven activities. It shows how tasks move between different roles and how the system manages each step from request creation to completion.
+This diagram helps in understanding the sequence of operations and the responsibilities of each actor involved in the process.
 
 ![Activity Diagram](../uml/Context/activity_diagram.png)
 
