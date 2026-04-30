@@ -1,0 +1,37 @@
+@startuml use_case_simplified
+left to right direction
+
+title Use Case Diagram — Maintenance Management System
+
+actor Technician as tech
+actor Supervisor as sup
+actor Administrator as admin
+actor "IoT Sensors\n<<external system>>" as iot
+actor "Notification Service\n<<external system>>" as notif
+
+rectangle "Maintenance Management System" {
+    usecase "Log Maintenance Request" as UC1
+    usecase "Assign and Track Work Order" as UC2
+    usecase "Update Work Order" as UC3
+    usecase "Handle Sensor Alert" as UC4
+    usecase "Monitor KPI Reports" as UC5
+    usecase "Send Notifications" as UC6
+}
+
+tech --> UC1
+tech --> UC3
+
+sup --> UC2
+
+admin --> UC5
+
+iot --> UC4
+
+UC1 ..> UC6 : <<include>>
+UC2 ..> UC6 : <<include>>
+UC3 ..> UC6 : <<include>>
+UC4 ..> UC6 : <<include>>
+
+UC6 --> notif
+
+@enduml

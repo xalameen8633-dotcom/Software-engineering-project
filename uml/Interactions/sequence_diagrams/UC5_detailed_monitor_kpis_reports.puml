@@ -1,0 +1,18 @@
+@startuml
+title UC5 — Monitor KPI Reports (Detailed)
+
+actor Administrator
+participant "Web Application" as Web
+participant "Backend API" as API
+database "DB" as DB
+
+Administrator -> Web : Open KPI dashboard
+Web -> API : Request KPI reports
+API -> DB : Read maintenance data
+DB --> API : Return maintenance data
+
+API -> API : Calculate KPIs
+API --> Web : Return KPI reports
+Web --> Administrator : Display KPI reports
+
+@enduml

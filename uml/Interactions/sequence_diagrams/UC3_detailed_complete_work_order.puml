@@ -1,0 +1,26 @@
+@startuml
+title UC3 — Update Work Order (Detailed)
+
+actor Technician
+participant "Web Application" as Web
+participant "Backend API" as API
+database "DB" as DB
+participant "Notification Service" as Notif
+actor Supervisor
+
+Technician -> Web : Enter work order update
+Web -> API : Send update
+
+API -> DB : Update work order
+API -> DB : Update maintenance history
+API -> DB : Update spare parts inventory
+DB --> API : Saved
+
+API -> Notif : Send completion notification
+Notif -> Supervisor : Notify completed work order
+Notif --> API : Delivered
+
+API --> Web : Return success response
+Web --> Technician : Show confirmation
+
+@enduml

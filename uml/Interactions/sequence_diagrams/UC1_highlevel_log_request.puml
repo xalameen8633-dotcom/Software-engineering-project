@@ -1,0 +1,14 @@
+@startuml
+title UC1 — Log Maintenance Request (High-Level)
+
+actor Technician
+participant "Maintenance Management System" as MMS
+participant "Notification Service" as Notif
+actor Supervisor
+
+Technician -> MMS : Log maintenance request
+MMS -> Notif : Send new request notification
+Notif -> Supervisor : Notify new request
+MMS --> Technician : Confirm request logged
+
+@enduml

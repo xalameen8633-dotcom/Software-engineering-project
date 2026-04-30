@@ -1,0 +1,28 @@
+@startuml
+title UC1 — Log Maintenance Request (Detailed)
+
+actor Technician
+participant "Web Application" as Web
+participant "Backend API" as API
+database "DB" as DB
+participant "Notification Service" as Notif
+
+Technician -> Web : Enter request details
+Web -> API : Send request
+API -> API : Validate request data
+
+alt Invalid or missing request details
+    API --> Web : Return validation error
+    Web --> Technician : Show error message
+else Valid request details
+    API -> DB : Store maintenance request
+    DB --> API : Saved
+
+    API -> Notif : Send new request notification
+    Notif --> API : Delivered
+
+    API --> Web : Return success response
+    Web --> Technician : Show confirmation
+end
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+title UC4 — Handle Sensor Alert (Detailed)
+
+actor "IoT Sensors" as IoT
+participant "Backend API" as API
+database "DB" as DB
+participant "Notification Service" as Notif
+actor "Supervisor" as Supervisor
+
+IoT -> API : Send sensor reading
+API -> API : Check sensor threshold
+
+alt Abnormal reading
+    API -> DB : Store sensor alert
+    API -> DB : Create maintenance request
+    DB --> API : Saved
+
+    API -> Notif : Send sensor alert notification
+    Notif -> Supervisor : Notify sensor alert
+    Notif --> API : Delivered
+else Normal reading
+    API -> DB : Store sensor reading
+    DB --> API : Saved
+end
+
+@enduml

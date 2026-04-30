@@ -1,0 +1,30 @@
+@startuml
+title UC2 — Assign and Track Work Order (Detailed)
+
+actor Supervisor
+participant "Web Application" as Web
+participant "Backend API" as API
+database "DB" as DB
+participant "Notification Service" as Notif
+actor Technician
+
+Supervisor -> Web : Select request and assign technician
+Web -> API : Send work order assignment
+API -> DB : Create work order
+DB --> API : Saved
+
+API -> Notif : Send work order notification
+Notif -> Technician : Notify assigned work order
+Notif --> API : Delivered
+
+API --> Web : Return success response
+Web --> Supervisor : Show confirmation
+
+Supervisor -> Web : Track work order status
+Web -> API : Request work order status
+API -> DB : Read work order status
+DB --> API : Return status
+API --> Web : Return status
+Web --> Supervisor : Display work order status
+
+@enduml
