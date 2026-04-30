@@ -9,10 +9,10 @@ Maintenance Management System
 
 **Student IDs + Names:**
 
+20210748 — Mira Nebal Hendawi  
+20210611 — Osama Eltayyeb Alameen  
 20210853 — Zina Maher Alhijazeen  
 20220637 — Zakaria Zakarya Alkashef  
-20210611 — Osama Eltayyeb Alameen  
-20210748 — Mira Nebal Hendawi  
 
 **Course + Instructor:**  
 Software Engineering — Dr. Samer Elkababji  
@@ -55,8 +55,8 @@ The system improves efficiency, reduces downtime, and ensures proper tracking of
 ## 4. Repo Structure
 
     /docs
-      se_report_group_01.md
-      se_report_group_01.pdf
+      report.md
+      report.pdf
 
     /uml
       Context/
