@@ -1,0 +1,129 @@
+@startuml
+title Class Diagram — Maintenance Management System
+
+class User {
+  - userId: int
+  - name: string
+  - email: string
+  - password: string
+  + login()
+  + logout()
+}
+
+class Technician {
+  + logMaintenanceRequest()
+  + updateWorkOrder()
+}
+
+class Supervisor {
+  + assignWorkOrder()
+  + trackWorkOrder()
+  + reviewWorkOrder()
+}
+
+class Administrator {
+  + monitorKPIReports()
+}
+
+User <|-- Technician
+User <|-- Supervisor
+User <|-- Administrator
+
+class Equipment {
+  - equipmentId: int
+  - name: string
+  - specification: string
+  - operationalStatus: string
+  + updateStatus()
+}
+
+class MaintenanceRequest {
+  - requestId: int
+  - equipmentId: int
+  - requestType: string
+  - description: string
+  - status: string
+  - createdDate: date
+  + createRequest()
+  + updateStatus()
+}
+
+class WorkOrder {
+  - workOrderId: int
+  - requestId: int
+  - technicianId: int
+  - status: string
+  - assignedDate: date
+  - completedDate: date
+  + assignTechnician()
+  + updateStatus()
+  + closeWorkOrder()
+}
+
+class MaintenanceHistory {
+  - historyId: int
+  - equipmentId: int
+  - maintenanceDate: date
+  - description: string
+  - labourHours: float
+  + addRecord()
+}
+
+class SparePart {
+  - partId: int
+  - partName: string
+  - quantity: int
+  - cost: float
+  + updateQuantity()
+}
+
+class SensorReading {
+  - readingId: int
+  - equipmentId: int
+  - temperature: float
+  - vibration: float
+  - pressure: float
+  - readingTime: datetime
+  + checkThreshold()
+}
+
+class SensorAlert {
+  - alertId: int
+  - alertType: string
+  - severity: string
+  - alertDate: datetime
+  + createAlert()
+}
+
+class KPIReport {
+  - reportId: int
+  - periodStart: date
+  - periodEnd: date
+  - downtime: float
+  - responseTime: float
+  - repairCost: float
+  + calculateKPIs()
+  + generateReport()
+}
+
+Technician "1" --> "0..*" MaintenanceRequest : logs
+Technician "1" --> "0..*" WorkOrder : updates
+Supervisor "1" --> "0..*" WorkOrder : assigns/tracks
+Administrator "1" --> "0..*" KPIReport : monitors
+
+Equipment "1" o-- "0..*" MaintenanceRequest : has
+Equipment "1" o-- "0..*" MaintenanceHistory : records
+Equipment "1" *-- "0..*" SensorReading : has
+Equipment "1" *-- "0..*" SensorAlert : triggers
+
+MaintenanceRequest "1" --> "0..1" WorkOrder : creates
+WorkOrder "1" --> "0..*" MaintenanceHistory : updates
+WorkOrder "0..*" o-- "0..*" SparePart : uses
+
+SensorReading "1" --> "0..1" SensorAlert : creates
+SensorAlert "1" --> "0..1" MaintenanceRequest : creates
+
+KPIReport ..> WorkOrder : uses data from
+KPIReport ..> MaintenanceHistory : uses data from
+
+@enduml
