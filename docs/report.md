@@ -50,7 +50,8 @@ The system includes several key functionalities that support maintenance operati
 
 ## 2.1 Context Diagram
 
-The Context Diagram defines the boundary of the Maintenance Management System (MMS) and illustrates its interactions with internal users and external systems.
+The Context Diagram defines the overall boundary of the Maintenance Management System (MMS) and shows how it interacts with different users and external systems.
+It provides a high-level view of the system, highlighting how MMS acts as the central platform that connects all actors and manages maintenance operations.
 
 ![C4 Level 1 Context Diagram](../uml/Context/context_diagram.png)
 
