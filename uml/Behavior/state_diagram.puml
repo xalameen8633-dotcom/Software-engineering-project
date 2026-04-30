@@ -1,0 +1,36 @@
+@startuml state_diagram
+title State Diagram — Work Order Lifecycle
+
+skinparam shadowing false
+skinparam roundcorner 15
+skinparam state {
+    BackgroundColor White
+    BorderColor Black
+    FontColor Black
+}
+
+[*] --> Pending_Request : Maintenance request submitted\nor predictive request created
+
+Pending_Request --> Created : Supervisor approves\nmaintenance request
+Pending_Request --> Rejected : Supervisor rejects\nmaintenance request
+
+Created --> Assigned : Supervisor assigns\ntechnician
+
+Assigned --> In_Progress : Technician views\nassigned work order\nand starts work
+
+In_Progress --> Completed : Technician submits\nwork order completion
+
+Completed --> Closed : Supervisor reviews\nand approves work
+
+Completed --> Rework_Requested : Supervisor requests\nrework
+
+Rework_Requested --> In_Progress : Technician performs\nrework
+
+Closed --> [*]
+Rejected --> [*]
+
+state "Pending Request" as Pending_Request
+state "In Progress" as In_Progress
+state "Rework Requested" as Rework_Requested
+
+@enduml
