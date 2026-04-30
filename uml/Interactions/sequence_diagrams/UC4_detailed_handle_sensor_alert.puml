@@ -8,19 +8,25 @@ participant "Notification Service" as Notif
 actor "Supervisor" as Supervisor
 
 IoT -> API : Send sensor reading
-API -> API : Check sensor threshold
+API -> API : Validate sensor data
 
-alt Abnormal reading
-    API -> DB : Store sensor alert
-    API -> DB : Create maintenance request
-    DB --> API : Saved
+alt Invalid sensor data
+    API --> IoT : Return error / ignore reading
+else Valid sensor data
+    API -> API : Check sensor threshold
 
-    API -> Notif : Send sensor alert notification
-    Notif -> Supervisor : Notify sensor alert
-    Notif --> API : Delivered
-else Normal reading
-    API -> DB : Store sensor reading
-    DB --> API : Saved
+    alt Abnormal reading
+        API -> DB : Store sensor alert
+        API -> DB : Create maintenance request
+        DB --> API : Saved
+
+        API -> Notif : Send sensor alert notification
+        Notif -> Supervisor : Notify sensor alert
+        Notif --> API : Delivered
+    else Normal reading
+        API -> DB : Store sensor reading
+        DB --> API : Saved
+    end
 end
 
 @enduml
