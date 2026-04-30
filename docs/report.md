@@ -109,7 +109,8 @@ The system is composed of the following main containers:
 - **IoT Sensors**: Send real-time equipment readings for predictive maintenance.
 - **Notification Service**: Sends alerts and system notifications to users.
 
-The container diagram demonstrates how the system follows a layered architecture, where the frontend communicates with the backend API, which in turn interacts with the database and external services.
+The container diagram illustrates how the system follows a layered architecture,where each component has a specific responsibility. The frontend handles user interaction, the backend manages logic and processing, and the database stores all system data.
+This separation improves system organization, scalability, and maintainability.
 
 ---
 
