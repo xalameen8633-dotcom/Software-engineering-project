@@ -74,7 +74,9 @@ The context diagram clearly shows the role of MMS as a central system that coord
 
 ## 2.2 Container Diagram
 
-The Container Diagram provides a high-level view of the internal architecture of the Maintenance Management System (MMS), showing how the system is divided into logical components and how they interact.
+The Container Diagram presents a high-level view of the internal structure of the Maintenance Management System (MMS).It shows how the system is divided into major components and how these components interact with each other.
+
+This diagram helps in understanding how responsibilities are distributed across the system and how data flows between different parts.
 
 ![C4 Level 2 Container Diagram](../uml/Context/container_diagram.png)
 
