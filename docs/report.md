@@ -167,6 +167,7 @@ The diagram identifies the core system functionalities and how each actor intera
 | **Extensions** | Invalid or missing request details → system shows an error → technician corrects and resubmits. |
 | **Includes** | Send Notifications |
 
+This use case is important because it ensures that maintenance tasks are properly initiated and managed, forming the foundation of the overall maintenance workflow.
 ---
 
 ### UC2 — Assign and Track Work Order
@@ -183,6 +184,7 @@ The diagram identifies the core system functionalities and how each actor intera
 | **Extensions** | Request is rejected → system updates request status and sends rejection notification to technician. |
 | **Includes** | Send Notifications |
 
+This use case is important because it ensures that maintenance tasks are properly initiated and managed, forming the foundation of the overall maintenance workflow.
 ---
 
 ### UC3 — Update Work Order
