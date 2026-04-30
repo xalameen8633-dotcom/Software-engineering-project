@@ -168,6 +168,8 @@ The diagram identifies the core system functionalities and how each actor intera
 | **Includes** | Send Notifications |
 
 This use case is important because it ensures that maintenance tasks are properly initiated and managed, forming the foundation of the overall maintenance workflow.
+
+
 ---
 
 ### UC2 — Assign and Track Work Order
@@ -185,6 +187,8 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Includes** | Send Notifications |
 
 This use case is important because it ensures that maintenance tasks are properly initiated and managed, forming the foundation of the overall maintenance workflow.
+
+
 ---
 
 ### UC3 — Update Work Order
