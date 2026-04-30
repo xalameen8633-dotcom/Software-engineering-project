@@ -201,6 +201,7 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Extensions** | Missing update details → system shows an error → technician corrects and resubmits. |
 | **Includes** | Send Notifications |
 
+This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
 ---
 
 ### UC4 — Handle Sensor Alert
@@ -216,6 +217,8 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Main Flow** | 1. IoT sensors send sensor reading. 2. System checks the sensor threshold. 3. If reading is abnormal, system stores sensor alert. 4. System creates maintenance request. 5. System sends sensor alert notification to supervisor. |
 | **Extensions** | Normal reading → system stores the sensor reading only and no alert is created. |
 | **Includes** | Send Notifications |
+
+This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
 
 ---
 
@@ -233,6 +236,7 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Extensions** | No maintenance data available → system displays an empty KPI report message. |
 | **Includes** | None |
 
+This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
 ---
 
 # 4. Sequence Diagrams
