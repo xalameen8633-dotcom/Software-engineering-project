@@ -70,7 +70,7 @@ All entities interacting with MMS are categorized based on their roles:
 - **IoT Sensors**: Continuously monitor equipment conditions and send abnormal readings to the system for predictive maintenance.
 - **Notification Service**: Sends system-generated alerts and notifications, including maintenance requests, work order updates, and sensor alerts.
 
-The context diagram clearly shows the role of MMS as a central system that coordinates communication between users and external services. It helps in understanding how information flows into and out of the system,ensuring that all interactions are properly managed.
+The context diagram clearly shows the role of MMS as a central system that coordinates communication between users and external services. It helps in understanding how information flows into and out of the system, ensuring that all interactions are properly managed.
 
 ---
 
@@ -111,14 +111,14 @@ The system is composed of the following main containers:
 - **IoT Sensors**: Send real-time equipment readings for predictive maintenance.
 - **Notification Service**: Sends alerts and system notifications to users.
 
-The container diagram illustrates how the system follows a layered architecture,where each component has a specific responsibility. The frontend handles user interaction, the backend manages logic and processing, and the database stores all system data.
+The container diagram illustrates how the system follows a layered architecture, where each component has a specific responsibility. The frontend handles user interaction, the backend manages logic and processing, and the database stores all system data.
 This separation improves system organization, scalability, and maintainability.
 
 ---
 
 ## 2.3 Activity Diagram
 
-The activity diagram illustrates the overall workflow of the maintenance process,including both manual and sensor-driven activities. It shows how tasks move between different roles and how the system manages each step from request creation to completion.
+The activity diagram illustrates the overall workflow of the maintenance process, including both manual and sensor-driven activities. It shows how tasks move between different roles and how the system manages each step from request creation to completion.
 This diagram helps in understanding the sequence of operations and the responsibilities of each actor involved in the process.
 
 ![Activity Diagram](../uml/Context/activity_diagram.png)
@@ -145,7 +145,7 @@ Overall, the activity diagram ensures that the maintenance process is structured
 ## 3.1 Use Case Diagram
 
 The use case diagram illustrates how different actors interact with the Maintenance Management System (MMS) to perform key operations. It provides a clear overview of the system’s functionality from the user’s perspective.
-This diagram helps in identifying the main system features and shows how each actor,such as technicians, supervisors, and administrators, is involved in different tasks within the system.
+This diagram helps in identifying the main system features and shows how each actor, such as technicians, supervisors, and administrators, is involved in different tasks within the system.
 
 ![Use Case Diagram](../uml/Interactions/usecase_diagram.png)
 
