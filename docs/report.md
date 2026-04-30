@@ -205,7 +205,9 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Extensions** | Missing update details → system shows an error → technician corrects and resubmits. |
 | **Includes** | Send Notifications |
 
+
 This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
+
 ---
 
 ### UC4 — Handle Sensor Alert
