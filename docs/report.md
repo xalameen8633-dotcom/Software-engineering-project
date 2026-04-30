@@ -127,7 +127,8 @@ The activity diagram illustrates the complete maintenance workflow, covering bot
 7. The supervisor reviews the completed work and either closes the work order or requests rework.
 8. The system updates KPI reports, which are monitored by the administrator.
 
-This diagram represents the end-to-end operational flow of the system and ensures consistency across all processes.
+This process ensures that each maintenance request is properly reviewed before being carried out. It also improves accountability, as each step is handled by a specific role such as a technician, supervisor, or the system.
+Additionally, the use of IoT devices allows the system to automatically detect potential issues without requiring manual input, enabling faster response and more efficient maintenance.
 
 ---
 
