@@ -20,7 +20,7 @@ Assigned --> In_Progress : Technician views\nassigned work order\nand starts wor
 
 In_Progress --> Completed : Technician submits\nwork order completion
 
-Completed --> Closed : Supervisor reviews\nand approves work
+Completed --> Closed : Supervisor approves \nwork
 
 Completed --> Rework_Requested : Supervisor requests\nrework
 
