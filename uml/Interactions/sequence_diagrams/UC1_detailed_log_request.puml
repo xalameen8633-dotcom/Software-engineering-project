@@ -1,28 +1,36 @@
-@startuml
+@startuml UC1_Detailed_Flow
 title UC1 — Log Maintenance Request (Detailed)
 
 actor Technician
 participant "Web Application" as Web
 participant "Backend API" as API
-database "DB" as DB
+database "Database" as DB
 participant "Notification Service" as Notif
 
-Technician -> Web : Enter request details
-Web -> API : Send request
-API -> API : Validate request data
+Technician -> Web : submitMaintenanceRequest(details)
+activate Web
+Web -> API : forwardRequest(details)
+activate API
+
+API -> API : validateRequest()
 
 alt Invalid or missing request details
-    API --> Web : Return validation error
-    Web --> Technician : Show error message
+    API --> Web : validationError(message)
+    Web --> Technician : displayError(message)
 else Valid request details
-    API -> DB : Store maintenance request
-    DB --> API : Saved
+    API -> DB : saveMaintenanceRequest(details)
+    activate DB
+    DB --> API : confirmation
+    deactivate DB
 
-    API -> Notif : Send new request notification
-    Notif --> API : Delivered
+    API -> Notif : sendNotification(supervisorID, requestID)
+    activate Notif
+    Notif --> API : notificationSent
+    deactivate Notif
 
-    API --> Web : Return success response
-    Web --> Technician : Show confirmation
+    API --> Web : successResponse(requestID)
+    deactivate API
+    Web --> Technician : displayConfirmation(requestID)
+    deactivate Web
 end
-
 @enduml
