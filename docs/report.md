@@ -13,7 +13,7 @@
 | 20210611 | Osama | 15 |
 | 20210748 | Mira | 29 |
 | 20210853 | Zina | 14 |
-| 20220637 | Zakarea | 1 |
+| 20220637 | Zakarea | 1 |  
 
 **GitHub Repository URL:**  
 https://github.com/xalameen8633-dotcom/Software-engineering-project
@@ -257,7 +257,7 @@ The following high-level sequence diagrams describes the communication process b
 
 ### UC1 — Log Maintenance Request
 
-![UC1 High-Level Sequence Diagram](../uml/Interactions/sequence_diagrams/UC1_highlevel_log_request.png)
+![UC1 High-Level Sequence Diagram](../uml/Interactions/sequence_diagrams/UC1_detailed_log_request)
 
 The UC1 high-level sequence diagram shows how a technician logs a maintenance request. The system receives the request, sends a new request notification to the supervisor, and confirms the request to the technician.
 
