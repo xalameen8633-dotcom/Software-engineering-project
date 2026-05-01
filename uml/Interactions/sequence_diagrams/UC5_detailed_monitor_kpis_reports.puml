@@ -1,18 +1,34 @@
-@startuml
+@startuml UC5_Detailed_Refined
 title UC5 — Monitor KPI Reports (Detailed)
+
+autonumber
+skinparam Style strictuml
 
 actor Administrator
 participant "Web Application" as Web
 participant "Backend API" as API
-database "DB" as DB
+database "Database" as DB
 
-Administrator -> Web : Open KPI dashboard
-Web -> API : Request KPI reports
-API -> DB : Read maintenance data
-DB --> API : Return maintenance data
+Administrator -> Web : openKPIDashboard()
+activate Web
 
-API -> API : Calculate KPIs
-API --> Web : Return KPI reports
-Web --> Administrator : Display KPI reports
+Web -> API : getKPIReports(timePeriod)
+activate API
+
+API -> DB : queryMaintenanceRecords()
+activate DB
+DB --> API : rawMaintenanceData
+deactivate DB
+
+alt Data Found
+    API -> API : calculateMetrics(MTTR, Downtime, Costs)
+    API --> Web : kpiSummaryJSON
+else No Data Found
+    API --> Web : emptyResultSet
+end
+
+deactivate API
+Web --> Administrator : renderDashboardVisuals()
+deactivate Web
 
 @enduml
