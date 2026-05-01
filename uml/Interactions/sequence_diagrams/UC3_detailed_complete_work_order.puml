@@ -1,33 +1,46 @@
-@startuml
+@startuml UC3_Detailed_Final
 title UC3 — Update Work Order (Detailed)
+
+autonumber
+skinparam Style strictuml
 
 actor Technician
 participant "Web Application" as Web
 participant "Backend API" as API
-database "DB" as DB
+database "Database" as DB
 participant "Notification Service" as Notif
 actor Supervisor
 
-Technician -> Web : Enter work order update
-Web -> API : Send update
+Technician -> Web : submitUpdate(orderID, updateData)
+activate Web
+Web -> API : postUpdate(orderID, updateData)
+activate API
 
-API -> API : Validate update data
+API -> API : validateUpdateDetails()
 
 alt Invalid update data
-    API --> Web : Return error message
-    Web --> Technician : Show validation error
+    API --> Web : errorResponse(400, "Invalid Data")
+    Web --> Technician : displayErrorMessage()
 else Valid update data
-    API -> DB : Update work order
-    API -> DB : Update maintenance history
-    API -> DB : Update spare parts inventory
-    DB --> API : Saved
+    group Database Transaction
+        API -> DB : updateWorkOrder(status: "Completed")
+        activate DB
+        API -> DB : logMaintenanceHistory(details)
+        API -> DB : decrementSpareParts(partsList)
+        DB --> API : transactionSuccess
+        deactivate DB
+    end
 
-    API -> Notif : Send completion notification
-    Notif -> Supervisor : Notify completed work order
-    Notif --> API : Delivered
+    API -> Notif : triggerCompletionAlert(supervisorID)
+    activate Notif
+    Notif -> Supervisor : pushNotify("Work Order #123 Completed")
+    Notif --> API : deliveryAcknowledged
+    deactivate Notif
 
-    API --> Web : Return success response
-    Web --> Technician : Show confirmation
+    API --> Web : updateSuccess(200)
+    deactivate API
+    Web --> Technician : showSuccessConfirmation()
+    deactivate Web
 end
 
 @enduml
