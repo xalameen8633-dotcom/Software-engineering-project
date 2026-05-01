@@ -253,7 +253,7 @@ This use case plays a key role in maintaining system efficiency by ensuring that
 
 ## 4.1 High-Level Sequence Diagrams (Stakeholders)
 
-These sequence diagrams illustrate interactions between users and the system at a high level. They focus on the main actor, the Maintenance Management System, and external services such as the Notification Service.
+The following high-level sequence diagrams describes the communication process between users and the Maintenance Management System (MMS) and external systems such as the Notification service. They show how information and data flow during the main operations.
 
 ### UC1 — Log Maintenance Request
 
