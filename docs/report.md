@@ -257,7 +257,7 @@ The following high-level sequence diagrams describes the communication process b
 
 ### UC1 — Log Maintenance Request
 
-![UC1 High-Level Sequence Diagram](../uml/Interactions/sequence_diagrams/UC1_detailed_log_request)
+![UC1 High-Level Sequence Diagram](../uml/Interactions/sequence_diagrams/UC1_highlevel_log_request.png)
 
 The UC1 high-level sequence diagram shows how a technician logs a maintenance request. The system receives the request, sends a new request notification to the supervisor, and confirms the request to the technician.
 
