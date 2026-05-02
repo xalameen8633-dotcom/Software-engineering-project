@@ -13,11 +13,8 @@
 | 20210611 | Osama | 15 |
 | 20210748 | Mira | 29 |
 | 20210853 | Zina | 14 |
-<<<<<<< HEAD
-| 20220637 | Zakarea | 9 |  
-=======
 | 20220637 | Zakarea | 10 |  
->>>>>>> 076fcc6 (Update doc)
+
 
 **GitHub Repository URL:**  
 https://github.com/xalameen8633-dotcom/Software-engineering-project
