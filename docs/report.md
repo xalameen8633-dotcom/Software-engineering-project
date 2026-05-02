@@ -167,7 +167,7 @@ The diagram identifies the core system functionalities and how each actor intera
 | **Description** | A technician logs a maintenance request for equipment that needs preventive or corrective maintenance. |
 | **Preconditions** | Technician is authenticated. Equipment record exists in the system. |
 | **Postconditions** | Maintenance request is stored and supervisor is notified. |
-| **Main Flow** | 1. Technician enters request details. 2. System stores the maintenance request. 3. System sends a new request notification to the supervisor. 4. Technician receives confirmation. |
+| **Main Flow** | 1. Technician enters request details. 2. System validates the request data. 3. System stores the maintenance request. 4. System sends a new request notification to the supervisor. 5. Technician receives confirmation. |
 | **Extensions** | Invalid or missing request details → system shows an error → technician corrects and resubmits. |
 | **Includes** | Send Notifications |
 
@@ -186,9 +186,10 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Description** | A supervisor assigns a work order to a technician and tracks its status. |
 | **Preconditions** | Supervisor is authenticated. A maintenance request exists. |
 | **Postconditions** | Work order is created, technician is notified, and work order status can be tracked. |
-| **Main Flow** | 1. Supervisor selects a maintenance request. 2. Supervisor assigns the work order to a technician. 3. System creates the work order. 4. System sends a work order notification to the technician. 5. Supervisor tracks the work order status. |
+| **Main Flow** | 1. Supervisor selects a maintenance request. 2. Supervisor assigns the work order to a technician. 3. System validates the assignment. 4. System creates the work order. 5. System sends a work order notification to the technician. 6. Supervisor tracks the work order status. |
 | **Extensions** | Request is rejected → system updates request status and sends rejection notification to technician. |
 | **Includes** | Send Notifications |
+
 
 This use case is important because it ensures that maintenance tasks are properly assigned and monitored, enabling supervisors to manage resources efficiently and track progress.
 
@@ -202,11 +203,11 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Use Case ID** | UC3 |
 | **Use Case Name** | Update Work Order |
 | **Actor(s)** | Technician |
-| **Description** | A technician updates an assigned work order to show progress or completion. |
+| **Description** | A technician updates an assigned work order to show progress or completion. The system performs all update operations within a database transaction to ensure data consistency. |
 | **Preconditions** | Technician is authenticated. Work order is assigned to the technician. |
 | **Postconditions** | Work order, maintenance history, and spare parts inventory are updated. Supervisor is notified. |
-| **Main Flow** | 1. Technician enters work order update. 2. System updates the work order. 3. System updates maintenance history and spare parts inventory. 4. System sends a completion notification to the supervisor. 5. Technician receives confirmation. |
-| **Extensions** | Missing update details → system shows an error → technician corrects and resubmits. |
+| **Main Flow** | 1. Technician enters work order update. 2. System validates the update details. 3. System updates the work order. 4. System updates maintenance history and spare parts inventory. 5. System sends a completion notification to the supervisor. 6. Technician receives confirmation. |
+| **Extensions** | Invalid or missing update details → system shows an error → technician corrects and resubmits. |
 | **Includes** | Send Notifications |
 
 
@@ -224,9 +225,10 @@ This use case plays a key role in maintaining system efficiency by ensuring that
 | **Description** | IoT sensors send readings to the system. If the reading is abnormal, the system creates a sensor alert and maintenance request. |
 | **Preconditions** | IoT sensors are active. Equipment record exists in the system. |
 | **Postconditions** | If abnormal, sensor alert and maintenance request are stored, and supervisor is notified. |
-| **Main Flow** | 1. IoT sensors send sensor reading. 2. System checks the sensor threshold. 3. If reading is abnormal, system stores sensor alert. 4. System creates maintenance request. 5. System sends sensor alert notification to supervisor. |
-| **Extensions** | Normal reading → system stores the sensor reading only and no alert is created. |
+| **Main Flow** | 1. IoT sensors send sensor reading. 2. System validates the sensor data. 3. System performs threshold checking and predictive diagnostics on sensor data. 4. If reading is abnormal, system stores sensor alert. 5. System creates maintenance request. 6. System sends sensor alert notification to supervisor. |
+| **Extensions** | Invalid sensor data → system ignores the reading or returns an error. Normal reading → system stores the sensor reading only and no alert is created. |
 | **Includes** | Send Notifications |
+
 
 This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
 
@@ -242,7 +244,7 @@ This use case plays a key role in maintaining system efficiency by ensuring that
 | **Description** | Administrator monitors KPI reports such as downtime, response time, and repair cost. |
 | **Preconditions** | Administrator is authenticated. Maintenance data exists in the system. |
 | **Postconditions** | KPI reports are displayed to the administrator. |
-| **Main Flow** | 1. Administrator opens KPI dashboard. 2. System reads maintenance data. 3. System calculates KPIs. 4. System displays KPI reports. |
+| **Main Flow** | 1. Administrator opens KPI dashboard. 2. System retrieves maintenance data. 3. System calculates KPIs such as downtime, response time (MTTR), and maintenance costs. 4. System displays KPI reports. |
 | **Extensions** | No maintenance data available → system displays an empty KPI report message. |
 | **Includes** | None |
 
