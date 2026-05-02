@@ -11,9 +11,9 @@
 | Student ID | Name | Commit Count |
 |---|---|---:|
 | 20210611 | Osama | 15 |
-| 20210748 | Mira | 29 |
+| 20210748 | Mira | 33 |
 | 20210853 | Zina | 14 |
-| 20220637 | Zakarea | 10 |  
+| 20220637 | Zakarea | 11 |  
 
 
 **GitHub Repository URL:**  
@@ -22,7 +22,7 @@ https://github.com/xalameen8633-dotcom/Software-engineering-project
 **Version Information:**
 
 v1.0.0 — First tagged version (April 25, 2026)  
-v2.0.0 — Final report version (May 2, 2026)
+v2.0.0 — Final report version (May 4, 2026)
 
 ---
 
@@ -211,7 +211,7 @@ This use case is important because it ensures that maintenance tasks are properl
 | **Includes** | Send Notifications |
 
 
-This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
+This use case is important because it ensures that maintenance tasks are completed correctly and recorded, which keeps the system's data accurate and up to date.
 
 ---
 
@@ -230,7 +230,7 @@ This use case plays a key role in maintaining system efficiency by ensuring that
 | **Includes** | Send Notifications |
 
 
-This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
+This use case is important because it lets the system automatically find possible problems using sensor data, which makes it possible to take proactive and timely maintenance steps.
 
 ---
 
@@ -248,7 +248,7 @@ This use case plays a key role in maintaining system efficiency by ensuring that
 | **Extensions** | No maintenance data available → system displays an empty KPI report message. |
 | **Includes** | None |
 
-This use case plays a key role in maintaining system efficiency by ensuring that tasks are completed, monitored,and evaluated effectively.
+This use case is important because it provides administrators with insights into system performance, which helps them make informed decisions by analyzing KPIs.
 
 ---
 
@@ -389,11 +389,11 @@ Since the system has both data-driven and event-driven behavior, the **State Dia
 
 ---
 
-## 6.2 State Diagram — Work Order Lifecycle
+## 6.2 State Diagram — Maintenance Request and Work Order Lifecycle
 
-The state diagram models the lifecycle of a work order.
+The state diagram models the lifecycle starting from a maintenance request and continuing as a work order after supervisor approval.
 
-![State Diagram — Work Order Lifecycle](../uml/Behavior/state_diagram.png)
+![State Diagram — Maintenance Request and Work Order Lifecycle](../uml/Behavior/state_diagram.png)
 
 ### States
 

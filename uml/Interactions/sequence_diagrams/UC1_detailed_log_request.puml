@@ -1,7 +1,9 @@
 @startuml UC1_Detailed_Flow
 title UC1 — Log Maintenance Request (Detailed)
 
+skinparam Style strictuml
 autonumber
+
 actor Technician
 participant "Web Application" as Web
 participant "Backend API" as API
