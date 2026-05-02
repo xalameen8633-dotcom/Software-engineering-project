@@ -23,9 +23,14 @@ Software Engineering — Dr. Samer Elkababji
 
 ### System Purpose
 
-The Maintenance Management System (MMS) is designed to manage and optimize maintenance operations in industrial and commercial environments. It supports both corrective maintenance (manual requests by technicians) and predictive maintenance (triggered by IoT sensor alerts).
+The Maintenance Management System (MMS) is designed to manage, track, and optimize maintenance operations in industrial and commercial environments.
 
-The system improves efficiency, reduces downtime, and ensures proper tracking of maintenance activities.
+The system supports:
+- Corrective maintenance (manual requests by technicians)
+- Preventive maintenance (scheduled maintenance tasks)
+- Predictive maintenance (triggered by IoT sensor alerts)
+
+It improves efficiency, reduces downtime, and ensures proper tracking of maintenance activities.
 
 ---
 
@@ -48,7 +53,7 @@ The system improves efficiency, reduces downtime, and ensures proper tracking of
   - High-Level: Shows interactions between users and the system  
   - Detailed: Shows internal system processing and data flow  
 - **Class Diagram:** Represents system structure including entities, attributes, and relationships  
-- **State Diagram:** Models the lifecycle of a work order  
+- **State Diagram:** Models the lifecycle of a maintenance request and its transition into a work order  
 
 ---
 
@@ -63,6 +68,8 @@ The system improves efficiency, reduces downtime, and ensures proper tracking of
       Interactions/
       Structure/
       Behavior/
+
+    /Commit hub
 
     README.md
 
@@ -84,6 +91,6 @@ The system improves efficiency, reduces downtime, and ensures proper tracking of
 | Member | Commits |
 |--------|--------|
 | Osama | 15 |
-| Mira | 20 |
-| Zina | 1 |
-| Zakaria | 1 |
+| Mira | 33 |
+| Zina | 14 |
+| Zakaria | 11 |
