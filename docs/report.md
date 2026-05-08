@@ -368,11 +368,11 @@ The class diagram represents the static structure of the system.
 - **Associations**:
   - logs maintenance updates and requests are done by a Technician
   - Supervisor assigns and tracks work orders.
-  - Administrator monitors KPI reports.
+  - The admin is responsible for monitoring of KPI reports.
   - SensorAlert creates a MaintenanceRequest.
   - KPIReport uses data from WorkOrder and MaintenanceHistory.
 
-This diagram ensures a clear representation of system structure, including attributes, operations, inheritance, aggregation, composition, and associations.
+This diagram shows a easy to follow representation of system structure, including attributes, operations, inheritance, aggregation, composition, and associations.
 
 ---
 
@@ -385,7 +385,7 @@ The system is classified as a **hybrid system**:
 - **Data-driven**: manages maintenance requests, work orders, equipment records, spare parts inventory, maintenance history, and KPI reports.
 - **Event-driven**: responds to workflow events such as assignment, completion, rework, and abnormal IoT sensor readings.
 
-Since the system has both data-driven and event-driven behavior, the **State Diagram** was selected as the most representative behavioral model. This is because the lifecycle of a work order is strongly state-based and changes in response to clear events.
+Since both event and data driven activities are present, the state diagram was the obvious choice as the behavioral model. In addition, the work order follows a state-oriented lifecycle where transitions occur based on specific events and actions.
 
 ---
 
