@@ -366,7 +366,7 @@ The class diagram represents the static structure of the system.
 - **Composition**: Equipment is composed of SensorReading and SensorAlert objects.
 - **Aggregation**: Equipment records MaintenanceHistory and has MaintenanceRequests.
 - **Associations**:
-  - Technician logs maintenance requests and updates work orders.
+  - logs maintenance updates and requests are done by a Technician
   - Supervisor assigns and tracks work orders.
   - Administrator monitors KPI reports.
   - SensorAlert creates a MaintenanceRequest.
