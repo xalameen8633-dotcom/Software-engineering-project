@@ -1,0 +1,95 @@
+@startuml activity_predictive
+!pragma useVerticalIf on
+title Activity Diagram — Predictive Maintenance Workflow
+
+|IoT Sensors|
+start
+:Detect abnormal temperature,\nvibration, or pressure reading;
+:Send abnormal sensor reading;
+
+|Maintenance Management System|
+:Process sensor alert and\npredictive diagnostics;
+:Store sensor alert;
+:Create predictive maintenance request;
+:Send notification request;
+
+|Notification Service|
+:Send predictive maintenance request notification;
+
+|Supervisor|
+:Receive predictive maintenance request notification;
+:Assign work order to technician;
+:Track work order status;
+
+|Maintenance Management System|
+:Create work order;
+:Send work order notification request;
+
+|Notification Service|
+:Send work order notification;
+
+|Technician|
+:Receive work order notification;
+:View assigned work order;
+:Inspect equipment and perform maintenance;
+:Record labour and parts used;
+:Update work order;
+
+|Maintenance Management System|
+:Update maintenance history;
+:Update spare parts inventory;
+:Update work order status;
+:Send completion notification request;
+
+|Notification Service|
+:Send completion notification;
+
+|Supervisor|
+:Receive completion notification;
+:Track completed work order status;
+:Review completed work;
+
+if (Satisfactory?) then (Yes)
+    :Close work order;
+
+else (No)
+    :Request rework;
+
+    |Maintenance Management System|
+    :Update work order status\nto rework requested;
+    :Send rework notification request;
+
+    |Notification Service|
+    :Send rework notification;
+
+    |Technician|
+    :Receive rework notification;
+    :Perform rework;
+    :Record labour and parts used;
+    :Update work order;
+
+    |Maintenance Management System|
+    :Update maintenance history;
+    :Update spare parts inventory;
+    :Update work order status;
+    :Send rework completion notification request;
+
+    |Notification Service|
+    :Send rework completion notification;
+
+    |Supervisor|
+    :Receive rework completion notification;
+    :Review rework;
+    :Close work order;
+endif
+
+|Maintenance Management System|
+:Update work order status to closed;
+:Update KPI reports;
+
+|Administrator|
+:Monitor KPI reports\n(downtime, response time,\nrepair cost);
+
+stop
+
+@enduml

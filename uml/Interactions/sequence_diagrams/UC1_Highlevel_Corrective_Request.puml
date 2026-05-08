@@ -1,0 +1,19 @@
+@startuml UC1_HighLevel_Corrective_Request
+title UC1 — Log Corrective Maintenance Request (High-Level)
+
+skinparam Style strictuml
+autonumber
+
+actor Technician
+participant "Maintenance Management System" as MMS
+participant "Notification Service" as Notif
+actor Supervisor
+
+Technician -> Technician : Identify equipment fault or breakdown
+Technician -> MMS : Log corrective maintenance request
+MMS -> MMS : Validate and store corrective request
+MMS -> Notif : Send new corrective request notification
+Notif -> Supervisor : Notify corrective maintenance request
+MMS --> Technician : Confirm corrective request logged
+
+@enduml

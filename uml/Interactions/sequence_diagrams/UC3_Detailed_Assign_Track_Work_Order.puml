@@ -1,0 +1,60 @@
+@startuml UC3_Detailed_Assign_Track_Work_Order
+title UC3 — Assign and Track Work Order (Detailed)
+
+skinparam Style strictuml
+autonumber
+
+actor Supervisor
+participant "Web Application" as Web
+participant "Backend API" as API
+database "Database" as DB
+participant "Notification Service" as Notif
+actor Technician
+
+Notif -> Supervisor : notifyMaintenanceRequest(requestID)
+
+Supervisor -> Web : selectMaintenanceRequest(requestID, technicianID)
+activate Web
+Web -> API : assignWorkOrder(requestID, technicianID)
+activate API
+
+API -> API : validateAssignment()
+
+alt Invalid assignment or technician unavailable
+    API --> Web : assignmentError(message)
+    deactivate API
+    Web --> Supervisor : displayError(message)
+    deactivate Web
+
+else Valid assignment
+    API -> DB : createWorkOrder(requestID, technicianID)
+    activate DB
+    DB --> API : orderCreated(orderID)
+    deactivate DB
+
+    API -> Notif : sendAssignmentNotification(technicianID, orderID)
+    activate Notif
+    Notif -> Technician : notifyNewWorkOrder(orderID)
+    Notif --> API : notificationSent
+    deactivate Notif
+
+    API --> Web : assignmentSuccess(orderID)
+    deactivate API
+    Web --> Supervisor : showSuccessMessage(orderID)
+    deactivate Web
+
+    Supervisor -> Web : viewWorkOrderStatus(orderID)
+    activate Web
+    Web -> API : getWorkOrderStatus(orderID)
+    activate API
+    API -> DB : fetchWorkOrderStatus(orderID)
+    activate DB
+    DB --> API : statusData
+    deactivate DB
+    API --> Web : statusResponse(statusData)
+    deactivate API
+    Web --> Supervisor : displayStatusDashboard(statusData)
+    deactivate Web
+end
+
+@enduml

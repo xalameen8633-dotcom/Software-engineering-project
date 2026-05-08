@@ -1,0 +1,24 @@
+@startuml UC3_HighLevel_Assign_Track_Work_Order
+title UC3 — Assign and Track Work Order (High-Level)
+
+skinparam Style strictuml
+autonumber
+
+actor Supervisor
+participant "Maintenance Management System" as MMS
+participant "Notification Service" as Notif
+actor Technician
+
+Notif -> Supervisor : Notify maintenance request
+
+Supervisor -> MMS : Select request and assign technician
+MMS -> MMS : Validate assignment
+MMS -> MMS : Create work order
+MMS -> Notif : Send work order notification
+Notif -> Technician : Notify new work order
+MMS --> Supervisor : Confirm assignment
+
+Supervisor -> MMS : Track work order status
+MMS --> Supervisor : Display work order status
+
+@enduml

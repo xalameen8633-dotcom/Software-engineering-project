@@ -1,0 +1,19 @@
+@startuml UC2_HighLevel_Preventive_Request
+title UC2 — Log Preventive Maintenance Request (High-Level)
+
+skinparam Style strictuml
+autonumber
+
+actor Technician
+participant "Maintenance Management System" as MMS
+participant "Notification Service" as Notif
+actor Supervisor
+
+Technician -> Technician : Identify scheduled maintenance need
+Technician -> MMS : Log preventive maintenance request
+MMS -> MMS : Validate and store preventive request
+MMS -> Notif : Send new preventive request notification
+Notif -> Supervisor : Notify preventive maintenance request
+MMS --> Technician : Confirm preventive request logged
+
+@enduml

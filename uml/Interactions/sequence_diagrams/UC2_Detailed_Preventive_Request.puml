@@ -1,0 +1,43 @@
+@startuml UC2_Detailed_Preventive_Request
+title UC2 — Log Preventive Maintenance Request (Detailed)
+
+skinparam Style strictuml
+autonumber
+
+actor Technician
+participant "Web Application" as Web
+participant "Backend API" as API
+database "Database" as DB
+participant "Notification Service" as Notif
+
+Technician -> Technician : identifyScheduledMaintenanceNeed()
+Technician -> Web : submitPreventiveMaintenanceRequest(details)
+activate Web
+
+Web -> API : forwardPreventiveRequest(details)
+activate API
+
+API -> API : validateRequest()
+
+alt Invalid or missing request details
+    API --> Web : validationError(message)
+    Web --> Technician : displayError(message)
+else Valid request details
+    API -> DB : savePreventiveMaintenanceRequest(details)
+    activate DB
+    DB --> API : confirmation
+    deactivate DB
+
+    API -> Notif : sendNotification(supervisorID, requestID)
+    activate Notif
+    Notif --> API : notificationSent
+    deactivate Notif
+
+    API --> Web : successResponse(requestID)
+    deactivate API
+
+    Web --> Technician : displayConfirmation(requestID)
+    deactivate Web
+end
+
+@enduml

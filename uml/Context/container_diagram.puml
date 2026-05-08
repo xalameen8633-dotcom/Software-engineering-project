@@ -10,11 +10,11 @@ rectangle "Notification Service\n<<external system>>" as notification
 
 rectangle "Maintenance Management System" {
     rectangle "Web Application\n<size:12>Frontend for users" as web
-    rectangle "\t    Backend API\n<size:12>Handles maintenance requests,\n<size:12>work orders, sensor alerts,\n<size:12>predictive diagnostics, and KPIs" as api
-    database "\t\tDatabase\n<size:12>Stores users, equipment records,\n<size:12>spare parts inventory, work orders,\n<size:12>maintenance history, and KPI data" as db
+    rectangle "\t    Backend API\n<size:12>Handles corrective and preventive\n<size:12>maintenance requests, work orders,\n<size:12>sensor alerts, predictive diagnostics,\n<size:12>and KPIs" as api
+    database "\t\tDatabase\n<size:12>Stores users, equipment records,\n<size:12>maintenance requests, work orders,\n<size:12>maintenance history, spare parts\n<size:12>inventory, sensor alerts, and KPI data" as db
 }
 
-technician --> web : Logs maintenance requests\nand updates work orders
+technician --> web : Logs corrective and preventive\nmaintenance requests\nand updates work orders
 supervisor --> web : Assigns and tracks\nwork orders
 admin --> web : Monitors KPI reports\n(downtime, response time,\nrepair cost)
 
@@ -22,6 +22,6 @@ web --> api : Sends user actions
 api --> db : Reads and writes data
 
 iot --> api : Sends abnormal\nsensor readings
-api --> notification : Sends notification\nrequests
+api --> notification : Sends notifications
 
 @enduml

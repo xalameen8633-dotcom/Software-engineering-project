@@ -1,0 +1,165 @@
+@startuml UC4_Detailed_Update_Work_Order
+title UC4 — Update Work Order (Detailed)
+
+autonumber
+skinparam Style strictuml
+
+actor Technician
+participant "Web Application" as Web
+participant "Backend API" as API
+database "Database" as DB
+participant "Notification Service" as Notif
+actor Supervisor
+
+Technician -> Web : viewAssignedWorkOrder(orderID)
+activate Web
+Web -> API : getWorkOrderDetails(orderID)
+activate API
+API -> DB : fetchWorkOrder(orderID)
+activate DB
+DB --> API : workOrderDetails
+deactivate DB
+API --> Web : workOrderDetails
+deactivate API
+Web --> Technician : displayWorkOrderDetails()
+deactivate Web
+
+Technician -> Technician : performMaintenanceWork()
+Technician -> Technician : recordLabourAndPartsUsed()
+
+Technician -> Web : submitUpdate(orderID, updateData)
+activate Web
+Web -> API : postUpdate(orderID, updateData)
+activate API
+
+API -> API : validateUpdateDetails()
+
+alt Invalid or missing update details
+    API --> Web : errorResponse(400, "Invalid Data")
+    deactivate API
+    Web --> Technician : displayErrorMessage()
+    deactivate Web
+
+else Valid update details
+    group Database Transaction
+        API -> DB : updateWorkOrderStatus(orderID, "Completed")
+        activate DB
+        API -> DB : logMaintenanceHistory(details)
+        API -> DB : decrementSpareParts(partsList)
+        DB --> API : transactionSuccess
+        deactivate DB
+    end
+
+    API -> Notif : triggerCompletionAlert(supervisorID, orderID)
+    activate Notif
+    Notif -> Supervisor : notifyWorkOrderCompleted(orderID)
+    Notif --> API : deliveryAcknowledged
+    deactivate Notif
+
+    API --> Web : updateSuccess(200)
+    deactivate API
+    Web --> Technician : showSuccessConfirmation()
+    deactivate Web
+
+    Supervisor -> Supervisor : reviewCompletedWork()
+
+    alt Work satisfactory
+        Supervisor -> Web : closeWorkOrder(orderID)
+        activate Web
+        Web -> API : closeWorkOrder(orderID)
+        activate API
+
+        API -> DB : updateWorkOrderStatus(orderID, "Closed")
+        activate DB
+        DB --> API : statusClosed
+        deactivate DB
+
+        API -> API : calculateKPIUpdates()
+        API -> DB : updateKPIReports(orderID)
+        activate DB
+        DB --> API : kpiReportsUpdated
+        deactivate DB
+
+        API --> Web : closeSuccess()
+        deactivate API
+        Web --> Supervisor : showCloseConfirmation()
+        deactivate Web
+
+    else Rework required
+        Supervisor -> Web : requestRework(orderID, notes)
+        activate Web
+        Web -> API : submitReworkRequest(orderID, notes)
+        activate API
+
+        API -> DB : updateWorkOrderStatus(orderID, "Rework Requested")
+        activate DB
+        DB --> API : statusUpdated
+        deactivate DB
+
+        API -> Notif : sendReworkNotification(technicianID, orderID)
+        activate Notif
+        Notif -> Technician : notifyReworkRequested(orderID)
+        Notif --> API : notificationSent
+        deactivate Notif
+
+        API --> Web : reworkRequestSuccess
+        deactivate API
+        Web --> Supervisor : showReworkRequestConfirmation()
+        deactivate Web
+
+        Technician -> Technician : performRework()
+        Technician -> Technician : recordLabourAndPartsUsed()
+
+        Technician -> Web : submitUpdate(orderID, reworkUpdateData)
+        activate Web
+        Web -> API : postUpdate(orderID, reworkUpdateData)
+        activate API
+
+        API -> API : validateUpdateDetails()
+
+        group Rework Database Transaction
+            API -> DB : updateWorkOrderStatus(orderID, "Completed")
+            activate DB
+            API -> DB : logMaintenanceHistory(reworkDetails)
+            API -> DB : decrementSpareParts(reworkPartsList)
+            DB --> API : transactionSuccess
+            deactivate DB
+        end
+
+        API -> Notif : triggerReworkCompletionAlert(supervisorID, orderID)
+        activate Notif
+        Notif -> Supervisor : notifyReworkCompleted(orderID)
+        Notif --> API : deliveryAcknowledged
+        deactivate Notif
+
+        API --> Web : updateSuccess(200)
+        deactivate API
+        Web --> Technician : showSuccessConfirmation()
+        deactivate Web
+
+        Supervisor -> Supervisor : reviewRework()
+
+        Supervisor -> Web : closeWorkOrder(orderID)
+        activate Web
+        Web -> API : closeWorkOrder(orderID)
+        activate API
+
+        API -> DB : updateWorkOrderStatus(orderID, "Closed")
+        activate DB
+        DB --> API : statusClosed
+        deactivate DB
+
+        API -> API : calculateKPIUpdates()
+        API -> DB : updateKPIReports(orderID)
+        activate DB
+        DB --> API : kpiReportsUpdated
+        deactivate DB
+
+        API --> Web : closeSuccess()
+        deactivate API
+        Web --> Supervisor : showCloseConfirmation()
+        deactivate Web
+    end
+end
+
+@enduml

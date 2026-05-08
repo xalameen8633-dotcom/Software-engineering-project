@@ -8,9 +8,9 @@ actor Administrator
 rectangle "IoT Sensors\n<<external system>>" as iot
 rectangle "Notification Service\n<<external system>>" as notification
 
-rectangle "\t<b>Maintenance Management System</b>\n<size:13>     Manages preventive, corrective, and predictive\n   <size:13>maintenance activities, including equipment records,\n<size:13>       spare parts inventory, maintenance requests,\n    <size:13>work orders, sensor alerts, predictive diagnostics,\n                            <size:13>and KPI reports" as mms
+rectangle "\t<b>Maintenance Management System</b>\n<size:13>     Manages corrective, preventive, and predictive\n   <size:13>maintenance activities, including equipment records,\n<size:13>       spare parts inventory, maintenance requests,\n    <size:13>work orders, sensor alerts, predictive diagnostics,\n                            <size:13>and KPI reports" as mms
 
-Technician --> mms : Logs maintenance requests\nand updates work orders
+Technician --> mms : Logs corrective and preventive\nmaintenance requests\nand updates work orders
 Supervisor --> mms : Assigns and tracks\nwork orders
 Administrator --> mms : Monitors KPI reports\n(downtime, response time,\nrepair cost)
 

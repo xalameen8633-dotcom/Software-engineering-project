@@ -9,25 +9,23 @@ skinparam state {
     FontColor Black
 }
 
-[*] --> Pending_Request : Maintenance request submitted\nor predictive request created
+[*] --> Pending_Request : Corrective/preventive request logged\nor predictive request created
 
-Pending_Request --> Created : Supervisor approves\nmaintenance request
-Pending_Request --> Rejected : Supervisor rejects\nmaintenance request
+Pending_Request --> Created : Supervisor assigns technician\nand system creates work order
 
-Created --> Assigned : Supervisor assigns\ntechnician
+Created --> Assigned : System records assignment\nand notifies technician
 
 Assigned --> In_Progress : Technician views\nassigned work order\nand starts work
 
 In_Progress --> Completed : Technician submits\nwork order completion
 
-Completed --> Closed : Supervisor approves \nwork
+Completed --> Closed : Supervisor reviews completed work\nand closes work order
 
 Completed --> Rework_Requested : Supervisor requests\nrework
 
 Rework_Requested --> In_Progress : Technician performs\nrework
 
 Closed --> [*]
-Rejected --> [*]
 
 state "Pending Request" as Pending_Request
 state "In Progress" as In_Progress

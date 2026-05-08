@@ -1,0 +1,25 @@
+@startuml UC5_HighLevel_Handle_Predictive_Maintenance_Alert
+title UC5 — Handle Predictive Maintenance Alert (High-Level)
+
+skinparam Style strictuml
+autonumber
+
+actor "IoT Sensors" as IoT
+participant "Maintenance Management System" as MMS
+participant "Notification Service" as Notif
+actor Supervisor
+
+IoT -> IoT : Detect abnormal sensor reading
+IoT -> MMS : Send abnormal sensor reading
+
+MMS -> MMS : Validate sensor data
+MMS -> MMS : Perform threshold checking\nand predictive diagnostics
+MMS -> MMS : Store sensor alert
+MMS -> MMS : Create predictive maintenance request
+
+MMS -> Notif : Send predictive maintenance request notification
+Notif -> Supervisor : Notify predictive maintenance request
+
+MMS --> IoT : Confirm reading accepted
+
+@enduml

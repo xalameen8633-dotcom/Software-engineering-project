@@ -11,14 +11,17 @@ class User {
 }
 
 class Technician {
-  + logMaintenanceRequest()
+  + logCorrectiveMaintenanceRequest()
+  + logPreventiveMaintenanceRequest()
   + updateWorkOrder()
 }
 
 class Supervisor {
   + assignWorkOrder()
   + trackWorkOrder()
-  + reviewWorkOrder()
+  + reviewCompletedWork()
+  + requestRework()
+  + closeWorkOrder()
 }
 
 class Administrator {
@@ -28,6 +31,17 @@ class Administrator {
 User <|-- Technician
 User <|-- Supervisor
 User <|-- Administrator
+
+enum RequestType {
+  Corrective
+  Preventive
+  Predictive
+}
+
+enum RequestSource {
+  Technician
+  IoTSensors
+}
 
 class Equipment {
   - equipmentId: int
@@ -40,7 +54,8 @@ class Equipment {
 class MaintenanceRequest {
   - requestId: int
   - equipmentId: int
-  - requestType: string
+  - requestType: RequestType
+  - requestSource: RequestSource
   - description: string
   - status: string
   - createdDate: date
@@ -57,6 +72,7 @@ class WorkOrder {
   - completedDate: date
   + assignTechnician()
   + updateStatus()
+  + requestRework()
   + closeWorkOrder()
 }
 
@@ -85,6 +101,7 @@ class SensorReading {
   - pressure: float
   - readingTime: datetime
   + checkThreshold()
+  + runPredictiveDiagnostics()
 }
 
 class SensorAlert {
@@ -106,7 +123,7 @@ class KPIReport {
   + generateReport()
 }
 
-Technician "1" --> "0..*" MaintenanceRequest : logs
+Technician "1" --> "0..*" MaintenanceRequest : logs corrective/preventive requests
 Technician "1" --> "0..*" WorkOrder : updates
 Supervisor "1" --> "0..*" WorkOrder : assigns/tracks
 Administrator "1" --> "0..*" KPIReport : monitors
@@ -117,11 +134,14 @@ Equipment "1" *-- "0..*" SensorReading : has
 Equipment "1" *-- "0..*" SensorAlert : triggers
 
 MaintenanceRequest "1" --> "0..1" WorkOrder : creates
+MaintenanceRequest --> RequestType : uses
+MaintenanceRequest --> RequestSource : uses
+
 WorkOrder "1" --> "0..*" MaintenanceHistory : updates
 WorkOrder "0..*" o-- "0..*" SparePart : uses
 
 SensorReading "1" --> "0..1" SensorAlert : creates
-SensorAlert "1" --> "0..1" MaintenanceRequest : creates
+SensorAlert "1" --> "0..1" MaintenanceRequest : creates predictive request
 
 KPIReport ..> WorkOrder : uses data from
 KPIReport ..> MaintenanceHistory : uses data from

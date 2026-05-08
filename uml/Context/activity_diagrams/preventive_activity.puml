@@ -1,0 +1,93 @@
+@startuml activity_preventive
+!pragma useVerticalIf on
+title Activity Diagram — Preventive Maintenance Workflow
+
+|Technician|
+start
+:Identify scheduled maintenance need;
+:Log preventive maintenance request;
+
+|Maintenance Management System|
+:Create preventive maintenance request;
+:Send notification request;
+
+|Notification Service|
+:Send preventive maintenance request notification;
+
+|Supervisor|
+:Receive preventive maintenance request notification;
+:Assign work order to technician;
+:Track work order status;
+
+|Maintenance Management System|
+:Create work order;
+:Send work order notification request;
+
+|Notification Service|
+:Send work order notification;
+
+|Technician|
+:Receive work order notification;
+:View assigned work order;
+:Perform preventive maintenance;
+:Record labour and parts used;
+:Update work order;
+
+|Maintenance Management System|
+:Update maintenance history;
+:Update spare parts inventory;
+:Update work order status;
+:Send completion notification request;
+
+|Notification Service|
+:Send completion notification;
+
+|Supervisor|
+:Receive completion notification;
+:Track completed work order status;
+:Review completed work;
+
+if (Satisfactory?) then (Yes)
+    :Close work order;
+
+else (No)
+    :Request rework;
+
+    |Maintenance Management System|
+    :Update work order status\nto rework requested;
+    :Send rework notification request;
+
+    |Notification Service|
+    :Send rework notification;
+
+    |Technician|
+    :Receive rework notification;
+    :Perform rework;
+    :Record labour and parts used;
+    :Update work order;
+
+    |Maintenance Management System|
+    :Update maintenance history;
+    :Update spare parts inventory;
+    :Update work order status;
+    :Send rework completion notification request;
+
+    |Notification Service|
+    :Send rework completion notification;
+
+    |Supervisor|
+    :Receive rework completion notification;
+    :Review rework;
+    :Close work order;
+endif
+
+|Maintenance Management System|
+:Update work order status to closed;
+:Update KPI reports;
+
+|Administrator|
+:Monitor KPI reports\n(downtime, response time,\nrepair cost);
+
+stop
+
+@enduml

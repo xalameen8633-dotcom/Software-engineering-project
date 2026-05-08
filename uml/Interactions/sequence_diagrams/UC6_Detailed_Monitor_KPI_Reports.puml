@@ -1,0 +1,36 @@
+@startuml UC6_Detailed_Monitor_KPI_Reports
+title UC6 — Monitor KPI Reports (Detailed)
+
+autonumber
+skinparam Style strictuml
+
+actor Administrator
+participant "Web Application" as Web
+participant "Backend API" as API
+database "Database" as DB
+
+Administrator -> Web : openKPIDashboard()
+activate Web
+
+Web -> API : getKPIReports(timePeriod)
+activate API
+
+API -> DB : queryMaintenanceRecords(timePeriod)
+activate DB
+DB --> API : rawMaintenanceData
+deactivate DB
+
+alt Data found
+    API -> API : calculateMetrics(downtime, responseTime, repairCost)
+    API --> Web : kpiReportData
+    Web --> Administrator : displayKPIReports()
+
+else No maintenance data available
+    API --> Web : emptyKPIReportMessage
+    Web --> Administrator : displayEmptyReportMessage()
+end
+
+deactivate API
+deactivate Web
+
+@enduml

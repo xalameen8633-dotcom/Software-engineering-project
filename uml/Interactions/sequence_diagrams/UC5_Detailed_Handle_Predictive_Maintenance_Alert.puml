@@ -1,0 +1,50 @@
+@startuml UC5_Detailed_Handle_Predictive_Maintenance_Alert
+title UC5 — Handle Predictive Maintenance Alert (Detailed)
+
+autonumber
+skinparam Style strictuml
+
+participant "IoT Sensors" as IoT
+participant "Backend API" as API
+database "Database" as DB
+participant "Notification Service" as Notif
+actor "Supervisor" as Supervisor
+
+IoT -> IoT : detectAbnormalReading()
+IoT -> API : postSensorData(sensorID, value, timestamp)
+activate API
+
+API -> API : validateSensorData()
+
+alt Invalid sensor data
+    API --> IoT : response(400_Bad_Request)
+    deactivate API
+
+else Valid sensor data
+    API -> API : performThresholdCheckingAndPredictiveDiagnostics()
+
+    alt Abnormal reading
+        API -> DB : storeSensorAlert(details)
+        activate DB
+        API -> DB : createPredictiveMaintenanceRequest()
+        DB --> API : requestCreated(requestID)
+        deactivate DB
+
+        API -> Notif : sendPredictiveMaintenanceRequestNotification(supervisorID, requestID)
+        activate Notif
+        Notif -> Supervisor : notifyPredictiveMaintenanceRequest(requestID)
+        Notif --> API : notificationSent
+        deactivate Notif
+
+    else Normal reading
+        API -> DB : storeSensorReading(sensorID, value, timestamp)
+        activate DB
+        DB --> API : readingStored
+        deactivate DB
+    end
+
+    API --> IoT : response(202_Accepted)
+    deactivate API
+end
+
+@enduml
