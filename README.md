@@ -103,6 +103,6 @@ README.md
 | Member | Commits |
 |---|---:|
 | Osama | 15 |
-| Mira | 38 |
+| Mira | 39 |
 | Zina | 14 |
 | Zakaria | 11 |
