@@ -63,8 +63,8 @@ The system helps reduce downtime, improve maintenance tracking, manage spare par
 
 ```text
 /docs
-  report.md
-  report.pdf
+  se_report_group_01.md
+  se_report_group_01.pdf
 
 /uml
   Context/
