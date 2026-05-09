@@ -23,55 +23,69 @@ Software Engineering — Dr. Samer Elkababji
 
 ### System Purpose
 
-The Maintenance Management System (MMS) is designed to manage, track, and optimize maintenance operations in industrial and commercial environments.
+The Maintenance Management System (MMS) is designed to manage and track maintenance operations in industrial, commercial, or institutional environments.
 
 The system supports:
-- Corrective maintenance (manual requests by technicians)
-- Preventive maintenance (scheduled maintenance tasks)
-- Predictive maintenance (triggered by IoT sensor alerts)
 
-It improves efficiency, reduces downtime, and ensures proper tracking of maintenance activities.
+- Corrective maintenance requests logged by technicians when equipment faults or breakdowns occur
+- Preventive maintenance requests logged by technicians for scheduled or routine maintenance
+- Predictive maintenance alerts triggered by abnormal IoT sensor readings
 
----
+The system helps reduce downtime, improve maintenance tracking, manage spare parts, and support KPI monitoring such as downtime, response time, and repair cost.
 
 ### Tools Used
 
-- PlantUML  
-- Markdown  
-- Git & GitHub  
-- Visual Studio Code (VS Code)  
+- PlantUML
+- Markdown
+- GitHub
+- Visual Studio Code 
+- Pandoc
 
 ---
 
 ## 3. Diagrams
 
-- **Context Diagram (C4 Level 1):** Shows system boundary and interaction with external actors and systems  
-- **Container Diagram (C4 Level 2):** Shows internal architecture including frontend, backend API, and database  
-- **Activity Diagram:** Represents the maintenance workflow from request creation to completion  
-- **Use Case Diagram:** Shows interactions between actors and system functionalities  
-- **Sequence Diagrams:**  
-  - High-Level: Shows interactions between users and the system  
-  - Detailed: Shows internal system processing and data flow  
-- **Class Diagram:** Represents system structure including entities, attributes, and relationships  
-- **State Diagram:** Models the lifecycle of a maintenance request and its transition into a work order  
+- **Context Diagram (C4 Level 1):** Shows the system boundary and how technicians, supervisors, administrators, IoT sensors, and the notification service interact with MMS.
+- **Container Diagram (C4 Level 2):** Shows the internal architecture of MMS, including the Web Application, Backend API, Database, IoT Sensors, and Notification Service.
+- **Activity Diagrams:** Show the maintenance workflows separated into corrective, preventive, and predictive maintenance.
+- **Use Case Diagram:** Shows the main system functionalities and how each actor interacts with them.
+- **Use Case Descriptions:** Provide tabular descriptions for each use case, including actors, preconditions, postconditions, main flows, extensions, and included use cases.
+- **Sequence Diagrams:** Show the interaction flow for each use case.
+  - **High-Level Sequence Diagrams:** Show stakeholder-level communication between actors, MMS, and external systems.
+  - **Detailed Sequence Diagrams:** Show developer-level processing between the Web Application, Backend API, Database, and Notification Service.
+- **Class Diagram:** Represents the static structure of the system, including classes, attributes, operations, inheritance, associations, aggregation, and composition.
+- **State Diagram:** Models the lifecycle of a maintenance request and work order from pending request to closure, including rework when needed.
+- **State-Stimulus Table:** Describes the events, actions, and next states for the work order lifecycle.
 
 ---
 
 ## 4. Repo Structure
 
-    /docs
-      report.md
-      report.pdf
+```text
+/docs
+  report.md
+  report.pdf
 
-    /uml
-      Context/
-      Interactions/
-      Structure/
-      Behavior/
+/uml
+  Context/
+    context_diagram.puml
+    container_diagram.puml
+    activity_diagrams/
 
-    /Commit hub
+  Interactions/
+    usecase_diagram.puml
+    usecase_description.md
+    sequence_diagrams/
 
-    README.md
+  Structure/
+    class_diagram.puml
+
+  Behavior/
+    state_diagram.puml
+    state_stimulus_table.md
+
+README.md
+```
 
 ---
 
@@ -79,18 +93,16 @@ It improves efficiency, reduces downtime, and ensures proper tracking of mainten
 
 ### Member Roles
 
-- Osama — C4 Diagrams & Activity Diagram  
-- Mira — Use Case Diagram & Descriptions  
+- Osama — C4 Diagrams and Activity Diagrams  
+- Mira — Use Case Diagram and Use Case Descriptions  
 - Zina — Sequence Diagrams  
-- Zakaria — Class Diagram & State Diagram  
-
----
+- Zakaria — Class Diagram and State Diagram  
 
 ### Commit Count
 
 | Member | Commits |
-|--------|--------|
+|---|---:|
 | Osama | 15 |
-| Mira | 33 |
+| Mira | 38 |
 | Zina | 14 |
 | Zakaria | 11 |

@@ -17,42 +17,9 @@ Technician -> Technician : Record labour and parts used
 
 Technician -> MMS : Submit work order update
 MMS -> MMS : Validate update details
-
-alt Invalid or missing update details
-    MMS --> Technician : Show update error
-
-else Valid update details
-    MMS -> MMS : Update work order,\nmaintenance history,\nand spare parts inventory
-    MMS -> Notif : Send completion notification
-    Notif -> Supervisor : Notify work order completed
-    MMS --> Technician : Confirm update submitted
-
-    Supervisor -> Supervisor : Review completed work
-
-    alt Work satisfactory
-        Supervisor -> MMS : Close work order
-        MMS -> MMS : Update work order status to closed
-        MMS -> MMS : Update KPI reports
-        MMS --> Supervisor : Confirm work order closed
-
-    else Rework required
-        Supervisor -> MMS : Request rework
-        MMS -> MMS : Update work order status\nto rework requested
-        MMS -> Notif : Send rework notification
-        Notif -> Technician : Notify rework requested
-
-        Technician -> Technician : Perform rework
-        Technician -> MMS : Submit rework update
-        MMS -> MMS : Update work order,\nmaintenance history,\nand spare parts inventory
-        MMS -> Notif : Send rework completion notification
-        Notif -> Supervisor : Notify rework completed
-
-        Supervisor -> Supervisor : Review rework
-        Supervisor -> MMS : Close work order
-        MMS -> MMS : Update work order status to closed
-        MMS -> MMS : Update KPI reports
-        MMS --> Supervisor : Confirm work order closed
-    end
-end
+MMS -> MMS : Update work order,\nmaintenance history,\nand spare parts inventory
+MMS -> Notif : Send completion notification
+Notif -> Supervisor : Notify work order completed
+MMS --> Technician : Confirm update submitted
 
 @enduml
